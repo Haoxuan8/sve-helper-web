@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "cross-env NODE_ENV=development webpack serve",
+        "build-serve": "http-server build",
         "build": "cross-env NODE_ENV=production webpack --progress",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -26,6 +27,7 @@
         "cross-env": "^7.0.3",
         "css-loader": "^6.5.1",
         "html-webpack-plugin": "^5.5.0",
+        "http-server": "^14.1.1",
         "node-fetch": "2.6.6",
         "node-sass": "^6.0.1",
         "postcss": "^8.4.14",
@@ -37,7 +39,9 @@
         "typescript": "^4.5.2",
         "webpack": "^5.64.2",
         "webpack-cli": "^4.9.1",
-        "webpack-dev-server": "^4.5.0"
+        "webpack-dev-server": "^4.5.0",
+        "webpack-pwa-manifest": "^4.3.0",
+        "workbox-webpack-plugin": "^6.5.3"
     },
     "dependencies": {
         "@use-gesture/react": "^10.2.11",
