@@ -44,6 +44,10 @@
         "workbox-webpack-plugin": "^6.5.3"
     },
     "dependencies": {
+        "@emotion/react": "^11.9.3",
+        "@emotion/styled": "^11.9.3",
+        "@mui/icons-material": "^5.8.4",
+        "@mui/material": "^5.8.5",
         "@use-gesture/react": "^10.2.11",
         "ahooks": "^3.3.0",
         "classnames": "^2.3.1",
