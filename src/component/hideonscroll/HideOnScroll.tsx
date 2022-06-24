@@ -1,5 +1,6 @@
 import {Slide, useScrollTrigger} from "@mui/material";
-import React, {FC} from "react";
+import React, {FC, useLayoutEffect} from "react";
+import {useUpdate} from "ahooks";
 
 export type HideOnScrollProps = {
     window?: () => Window;
@@ -7,14 +8,19 @@ export type HideOnScrollProps = {
 }
 
 const HideOnScroll: FC<HideOnScrollProps> = (props) => {
-    const {children, window} = props;
     const trigger = useScrollTrigger({
-        target: window ? window() : undefined,
+        target: props.window ? props.window() : (document.getElementById("app") ?? undefined),
     });
+
+    const update = useUpdate();
+
+    useLayoutEffect(() => {
+        update();
+    }, []);
 
     return (
         <Slide appear={false} direction="down" in={!trigger}>
-            {children}
+            {props.children}
         </Slide>
     );
 }
