@@ -15,11 +15,18 @@
         "isolatedModules": true,
         // Import non-ES modules as default imports.
         "esModuleInterop": true,
-        "allowSyntheticDefaultImports" : true,
+        "allowSyntheticDefaultImports": true,
         "jsx": "react",
         "resolveJsonModule": true,
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ]
+        },
         "typeRoots": [
-            "./src/typing/global/index.d.ts", "./node_modules/@types"]
+            "./src/typing/global/index.d.ts",
+            "./node_modules/@types"
+        ]
     },
     "include": [
         "src"

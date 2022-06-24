@@ -1,4 +1,3 @@
-
 export enum Craft {
     Neural = "Neural",
     Nightmare = "Nightmare",
@@ -31,5 +30,22 @@ export enum Rare {
 }
 
 export interface Card {
-
+    attack: number;
+    card_no: string;
+    card_type: CardType;
+    cost: number;
+    craft: Craft;
+    created_at: number;
+    desc_cn: string;
+    desc_jp: string;
+    drawer: string;
+    from: string;
+    id: number;
+    img_url: string;
+    life: number;
+    name_cn: string;
+    name_jp: string;
+    rare: Rare;
+    related_card_nos: string;
+    type: string;
 }

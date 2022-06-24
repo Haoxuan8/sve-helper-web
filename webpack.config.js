@@ -112,11 +112,21 @@ module.exports = {
 
     resolve: {
         extensions: [".tsx", ".ts", ".js"],
+        alias: {
+            "@": `${__dirname}/src`,
+        },
     },
 
     devServer: {
         open: true,
         port: 8090,
         historyApiFallback: true,
+
+        proxy: {
+            "/api/**": {
+                target: "http://127.0.0.1:8080",
+                secure: false,
+            },
+        },
     },
 };
