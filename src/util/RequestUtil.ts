@@ -85,8 +85,8 @@ const requestCore = async (options: requestOptions) => {
                 try {
                     result = JSON.parse(text);
                 } catch (e) {
-                    console.warn(e);
                     console.log(text);
+                    throw new Error(text);
                 }
             }
 

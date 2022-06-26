@@ -3,13 +3,13 @@ import React, {FC, useLayoutEffect} from "react";
 import {useUpdate} from "ahooks";
 
 export type HideOnScrollProps = {
-    window?: () => Window;
+    window?: () => any;
     children: React.ReactElement;
 }
 
 const HideOnScroll: FC<HideOnScrollProps> = (props) => {
     const trigger = useScrollTrigger({
-        target: props.window ? props.window() : (document.getElementById("app") ?? undefined),
+        target: props.window?.() ? props.window() : (document.getElementById("app") ?? undefined),
     });
 
     const update = useUpdate();

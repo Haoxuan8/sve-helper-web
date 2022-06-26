@@ -1,33 +1,40 @@
-import React, {FC, useMemo} from "react";
+import React, {FC, useMemo, useState} from "react";
 import {
     AppBar,
     Box,
-    Button, Container,
+    Button, Container, Fab,
     IconButton,
     Toolbar,
     Typography
 } from "@mui/material";
 import HideOnScroll from "@/component/hideonscroll/HideOnScroll";
 import MenuIcon from "@mui/icons-material/Menu";
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import HomeIcon from '@mui/icons-material/Home';
 import config from "@/config";
 import getLazyComp from "@/util/getLazyComp";
-import {Navigate, Route, Routes} from "react-router";
+import {Navigate, Route, Routes, useNavigate} from "react-router";
 import _ from "lodash";
 import skin1 from "@/asset/image/skin1.png";
+import BackTop from "@/component/backtop/BackTop";
+import MenuDrawer from "@/MenuDrawer";
 
 export type AppProps = {}
 
 const App: FC<AppProps> = props => {
 
+    const navigate = useNavigate();
+    const [menuVisible, setMenuVisible] = useState(false);
+
     const routeComps = useMemo(() => {
-        return _.map(config.menus, route => {
+        return _.map(config.routes, route => {
             const Comp = getLazyComp(route.component);
 
             return (
                 <Route
                     key={route.key}
-                    path={route.key}
-                    element={<Comp />}
+                    path={`${route.key}/*`}
+                    element={<Comp/>}
                 />
             )
         })
@@ -38,50 +45,37 @@ const App: FC<AppProps> = props => {
             <HideOnScroll>
                 <AppBar>
                     <Toolbar>
+                        <IconButton
+                            color="inherit"
+                            aria-label="menu"
+                            edge="start"
+                            sx={{mr: 2}}
+                            onClick={() => setMenuVisible(true)}
+                        >
+                            <MenuIcon sx={{fontSize: 28}}/>
+                        </IconButton>
                         <Typography
                             sx={{flexGrow: 1}}
                             variant="h6"
                             component="div"
                         >
-                            SHADOWVERSE
+                            SVEApp
                         </Typography>
                         <IconButton
-                            size="large"
                             color="inherit"
-                            aria-label="menu"
-                            sx={{display: {md: "none"}}}
+                            edge="end"
+                            onClick={() => navigate("/home")}
                         >
-                            <MenuIcon sx={{fontSize: 32}} />
+                            <HomeIcon sx={{fontSize: 28}}/>
                         </IconButton>
-                        <Box sx={{display: {xs: "none", md: "flex"}}}>
-                            {
-                                config.menus.map(it => {
-                                    return (
-                                        <Button
-                                            key={it.key}
-                                            onClick={() => {
-                                            }}
-                                            sx={{color: "white",}}
-                                        >
-                                            <Typography
-                                                variant="h6"
-                                                component="div"
-                                            >
-                                                {it.name}
-                                            </Typography>
-                                        </Button>
-                                    )
-                                })
-                            }
-                        </Box>
                     </Toolbar>
                 </AppBar>
             </HideOnScroll>
             <div
-                className="bg-auto bg-top min-h-screen"
+                className="bg-auto bg-top min-h-screen py-0.5"
                 style={{backgroundImage: `url(${skin1})`}}
             >
-                <Toolbar />
+                <Toolbar id="back-to-top-anchor"/>
                 <Container maxWidth="lg">
                     <Routes>
                         {routeComps}
@@ -90,12 +84,21 @@ const App: FC<AppProps> = props => {
                             path="/"
                             element={<Navigate
                                 replace
-                                to={`/${_.head(config.menus)?.key}`}
+                                to="/home"
                             />}
                         />
                     </Routes>
                 </Container>
             </div>
+            <MenuDrawer
+                visible={menuVisible}
+                onClose={() => setMenuVisible(false)}
+            />
+            <BackTop>
+                <Fab size="small" aria-label="scroll back to top">
+                    <KeyboardArrowUpIcon/>
+                </Fab>
+            </BackTop>
         </div>
     )
 }
