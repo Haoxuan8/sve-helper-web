@@ -2,7 +2,7 @@ import React, {ErrorInfo, ReactElement} from "react";
 
 const Result = (props: any) => {
     return (
-        <div className="flex justify-center items-center h-full w-full">
+        <div className="flex justify-center items-center h-full w-full my-4">
             {props.children}
         </div>
     )

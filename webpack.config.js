@@ -44,6 +44,7 @@ module.exports = {
             filename: "index.html",
             template: `${__dirname}/src/index.html`,
             chunks: ["index"],
+            favicon: `${__dirname}/src/asset/favicon/favicon-48x48.png`,
             inject: true,
         }),
         new WebpackPwaManifest({
@@ -58,6 +59,11 @@ module.exports = {
                 {
                     src: `${__dirname}/src/asset/favicon/favicon-48x48.png`,
                     sizes: [48], // multiple sizes
+                    destination: "asset/favicon",
+                },
+                {
+                    src: `${__dirname}/src/asset/favicon/favicon-256x256.png`,
+                    sizes: [72, 96, 128, 256], // multiple sizes
                     destination: "asset/favicon",
                 },
             ],

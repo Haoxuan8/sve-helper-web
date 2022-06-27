@@ -38,7 +38,7 @@ const defaultProps = {};
 
 const CardCover: FC<CardCoverProps> = (p) => {
     const props = mergeProps(defaultProps, p);
-    const ref = useRef<HTMLDivElement>(null);
+    const ref = useRef<HTMLImageElement>(null);
     const [inViewport] = useInViewport(ref);
     const [loaded, setLoaded] = useState(false);
     const {run, loading} = useRequest(fetchImage, {
@@ -61,10 +61,13 @@ const CardCover: FC<CardCoverProps> = (p) => {
                 ref={ref}
                 className={`relative transition-all ${props.onClick == null ? "" : "cursor-pointer md:hover:scale-110 md:hover:drop-shadow-md"}`}
                 onClick={props.onClick}
+                style={{minHeight: 250}}
             >
-                <img style={{opacity: loaded ? 0 : 1}}
-                     className="duration-300 absolute inset-0"
-                     src={DefaultCardCover}/>
+                <img
+                    style={{opacity: loaded ? 0 : 1}}
+                    className="duration-300 absolute inset-0"
+                    src={DefaultCardCover}
+                />
                 <img
                     className="h-auto w-full transition-opacity duration-300"
                     style={{opacity: loaded ? 1 : 0}}

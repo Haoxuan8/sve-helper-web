@@ -27,6 +27,8 @@ export enum CardType {
     Amulet = "Amulet",
     Leader = "Leader",
     FollowerToken = "FollowerToken",
+    SpellToken = "SpellToken",
+    AmuletToken = "AmuletToken",
 }
 
 export const cardTypeName = {
@@ -35,7 +37,9 @@ export const cardTypeName = {
     [CardType.Spell]: "法术",
     [CardType.Amulet]: "护符",
     [CardType.Leader]: "主战者",
-    [CardType.FollowerToken]: "Token",
+    [CardType.FollowerToken]: "随从··Token",
+    [CardType.SpellToken]: "法术·Token",
+    [CardType.AmuletToken]: "护符·Token",
 }
 
 export enum Rare {
@@ -48,6 +52,7 @@ export enum Rare {
     BRP = "BR_P",
     SL = "SL",
     UR = "UR",
+    SP = "SP",
 }
 
 export const rareName = {
@@ -60,6 +65,7 @@ export const rareName = {
     [Rare.BRP]: "BRP",
     [Rare.SL]: "SL",
     [Rare.UR]: "UR",
+    [Rare.SP]: "SP",
 }
 
 export enum Category {
@@ -70,6 +76,7 @@ export enum Category {
     SD04 = "SD04",
     SD05 = "SD05",
     SD06 = "SD06",
+    BP02 = "BP02",
 }
 
 export const categoryName = {
@@ -80,6 +87,7 @@ export const categoryName = {
     [Category.SD04]: "[SD04]スターターデッキ第4弾 「蛇竜の爪牙」",
     [Category.SD05]: "[SD05]スターターデッキ第5弾 「永久なる定め」",
     [Category.SD06]: "[SD06]スターターデッキ第6弾 「穢れし洗礼」",
+    [Category.BP02]: "[BP02]ブースターパック第2弾「黒銀のバハムート」",
 }
 
 export interface Card {

@@ -39,8 +39,8 @@ const defaultProps = {};
 const nopArr: any[] = [];
 
 const crafts = [Craft.Forest, Craft.Sword, Craft.Rune, Craft.Dragon, Craft.Nightmare, Craft.Haven, Craft.Neutral];
-const rares = [Rare.BR, Rare.BRP, Rare.SR, Rare.SRP, Rare.GR, Rare.GRP, Rare.LG, Rare.UR];
-const categories = [Category.BP01, Category.SD01, Category.SD02, Category.SD03, Category.SD04, Category.SD05, Category.SD06];
+const rares = [Rare.BR, Rare.BRP, Rare.SR, Rare.SRP, Rare.GR, Rare.GRP, Rare.LG, Rare.SL, Rare.UR, Rare.SP];
+const categories = [Category.BP02, Category.BP01, Category.SD01, Category.SD02, Category.SD03, Category.SD04, Category.SD05, Category.SD06];
 
 const LIMIT = 24;
 
@@ -49,6 +49,7 @@ const getParams = (values: any) => {
         name: values.name,
         craft: values.craft,
         rare: values.rare,
+        from: values.from,
     }
 }
 
@@ -92,8 +93,10 @@ const CardList: FC<CardListProps> = (p) => {
                 render={({handleSubmit, submitting, form, values}) => {
                     return (
                         <Paper elevation={3} sx={{p: 2}}>
-                            <Box noValidate onSubmit={handleSubmit}
-                                 component="form" autoComplete="off">
+                            <Box
+                                noValidate onSubmit={handleSubmit}
+                                component="form" autoComplete="off"
+                            >
                                 <Grid container spacing={2} rowSpacing={1}>
                                     <Grid item xs={12} md={6}>
                                         <Field
@@ -106,21 +109,21 @@ const CardList: FC<CardListProps> = (p) => {
                                     <Grid item xs={12} md={6}>
                                         <Field
                                             fullWidth
+                                            name="from"
+                                            component={Select}
+                                            label="所属卡包"
+                                            formControlProps={{fullWidth: true}}
                                             multiple
                                             initialValue={nopArr}
-                                            name="craft"
-                                            component={Select}
-                                            label="职业"
-                                            formControlProps={{fullWidth: true}}
                                         >
                                             {
-                                                crafts.map(it => {
+                                                categories.map(it => {
                                                     return (
                                                         <MenuItem
                                                             key={it}
                                                             value={it}
                                                         >
-                                                            {craftName[it]}
+                                                            {categoryName[it]}
                                                         </MenuItem>
                                                     )
                                                 })
@@ -129,8 +132,10 @@ const CardList: FC<CardListProps> = (p) => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Collapse in={moreFilter}>
-                                            <Grid container spacing={2}
-                                                  rowSpacing={1}>
+                                            <Grid
+                                                container spacing={2}
+                                                rowSpacing={1}
+                                            >
                                                 <Grid item xs={12} md={6}>
                                                     <Field
                                                         fullWidth
@@ -158,21 +163,21 @@ const CardList: FC<CardListProps> = (p) => {
                                                 <Grid item xs={12} md={6}>
                                                     <Field
                                                         fullWidth
-                                                        name="from"
-                                                        component={Select}
-                                                        label="所属卡包"
-                                                        formControlProps={{fullWidth: true}}
                                                         multiple
                                                         initialValue={nopArr}
+                                                        name="craft"
+                                                        component={Select}
+                                                        label="职业"
+                                                        formControlProps={{fullWidth: true}}
                                                     >
                                                         {
-                                                            categories.map(it => {
+                                                            crafts.map(it => {
                                                                 return (
                                                                     <MenuItem
                                                                         key={it}
                                                                         value={it}
                                                                     >
-                                                                        {categoryName[it]}
+                                                                        {craftName[it]}
                                                                     </MenuItem>
                                                                 )
                                                             })
@@ -182,21 +187,25 @@ const CardList: FC<CardListProps> = (p) => {
                                             </Grid>
                                         </Collapse>
                                     </Grid>
-                                    <Grid sx={{my: 1}} xs={12}
-                                          className="flex justify-center">
+                                    <Grid
+                                        sx={{my: 1}} xs={12}
+                                        className="flex justify-center"
+                                    >
                                         <Button
                                             onClick={() => setMoreFilter(p => !p)}
                                         >
                                             更多筛选条件
                                             {moreFilter
-                                                ? <RemoveIcon/>
-                                                : <AddIcon/>}
+                                                ? <RemoveIcon />
+                                                : <AddIcon />}
                                         </Button>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Container maxWidth="md">
-                                            <Grid container spacing={2}
-                                                  rowSpacing={1}>
+                                            <Grid
+                                                container spacing={2}
+                                                rowSpacing={1}
+                                            >
                                                 <Grid item xs={6}>
                                                     <Button
                                                         fullWidth

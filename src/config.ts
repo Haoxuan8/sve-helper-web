@@ -1,5 +1,6 @@
 import HomeIcon from "@mui/icons-material/Home";
 import StyleIcon from "@mui/icons-material/Style";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 type RouteItem = {
     key: string;
@@ -15,6 +16,10 @@ const routes: RouteItem[] = [
         key: "card-list",
         component: () => import("./view/cardlist/CardList"),
     },
+    {
+        key: "setting",
+        component: () => import("./view/setting/Setting"),
+    }
 ];
 
 type MenuItem = {
@@ -34,7 +39,13 @@ const menus: MenuItem[] = [
         key: "card-list",
         name: "卡牌列表",
         Icon: StyleIcon,
-    }
+    },
+    {key: "divider"},
+    {
+        key: "setting",
+        name: "设置",
+        Icon: SettingsIcon,
+    },
 ]
 
 export default {

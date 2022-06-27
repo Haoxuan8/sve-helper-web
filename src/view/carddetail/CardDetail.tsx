@@ -80,24 +80,29 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                         sx={{
                             backgroundColor: "transparent",
                             boxShadow: "none"
-                        }}>
+                        }}
+                    >
                         <Toolbar>
                             {
                                 cardDetailStackRef.current.length > 1 && (
-                                    <IconButton edge="start" onClick={handleBack}
-                                                sx={{mr: 2}}>
-                                        <ArrowBackIosNewIcon sx={{fontSize: 24}}/>
+                                    <IconButton
+                                        edge="start" onClick={handleBack}
+                                        sx={{mr: 2}}
+                                    >
+                                        <ArrowBackIosNewIcon sx={{fontSize: 24}} />
                                     </IconButton>
                                 )
                             }
-                            <IconButton edge="start" onClick={props.onClose}
-                                        sx={{mr: 2}}>
-                                <CloseIcon sx={{fontSize: 32}}/>
+                            <IconButton
+                                edge="start" onClick={props.onClose}
+                                sx={{mr: 2}}
+                            >
+                                <CloseIcon sx={{fontSize: 32}} />
                             </IconButton>
                         </Toolbar>
                     </AppBar>
                 </HideOnScroll>
-                <Toolbar/>
+                <Toolbar />
                 <Container maxWidth="lg">
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={4}>
@@ -109,30 +114,44 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                                                 card={cardDetail}
                                                 style={{marginBottom: 8}}
                                             />
-                                            <Typography variant="h6"
-                                                        component="div">
+                                            <Typography
+                                                variant="h6"
+                                                component="div"
+                                            >
                                                 {cardDetail.name_cn}
+                                                <Typography
+                                                    sx={{ml: 1}}
+                                                    variant="caption"
+                                                >
+                                                    {cardDetail.card_no}
+                                                </Typography>
                                             </Typography>
                                             <Typography
-                                                className="text-gray-500"
                                                 variant="caption" gutterBottom
-                                                component="div">
+                                                component="div"
+                                            >
                                                 {cardDetail.name_jp}
                                             </Typography>
                                             <div className="flex flex-wrap">
-                                                <Typography sx={{mr: 2}}
-                                                            variant="body1"
-                                                            component="div">
+                                                <Typography
+                                                    sx={{mr: 2}}
+                                                    variant="body1"
+                                                    component="div"
+                                                >
                                                     种类：{cardTypeName[cardDetail.card_type]}
                                                 </Typography>
-                                                <Typography sx={{mr: 2}}
-                                                            variant="body1"
-                                                            component="div">
+                                                <Typography
+                                                    sx={{mr: 2}}
+                                                    variant="body1"
+                                                    component="div"
+                                                >
                                                     类型：{cardDetail.type}
                                                 </Typography>
-                                                <Typography sx={{mr: 2}}
-                                                            variant="body1"
-                                                            component="div">
+                                                <Typography
+                                                    sx={{mr: 2}}
+                                                    variant="body1"
+                                                    component="div"
+                                                >
                                                     稀有度：{rareName[cardDetail.rare]}
                                                 </Typography>
                                             </div>
@@ -140,7 +159,7 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <PriceSection card={cardDetail}/>
+                                    <PriceSection card={cardDetail} />
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -151,12 +170,17 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                                         <Grid item xs={12}>
                                             <Paper elevation={3}>
                                                 <Box sx={{p: 2}}>
-                                                    <Typography variant="h6"
-                                                                gutterBottom>
+                                                    <Typography
+                                                        variant="h6"
+                                                        gutterBottom
+                                                    >
                                                         能力
                                                     </Typography>
-                                                    <Typography variant="body1">
-                                                        {cardDetail.desc_jp}
+                                                    <Typography
+                                                        className="whitespace-pre-line"
+                                                        variant="body1"
+                                                    >
+                                                        {desc}
                                                     </Typography>
                                                 </Box>
                                             </Paper>
@@ -167,8 +191,9 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                                     loading
                                         ? (
                                             <div
-                                                className="w-full flex justify-center my-4">
-                                                <CircularProgress/>
+                                                className="w-full flex justify-center my-4"
+                                            >
+                                                <CircularProgress />
                                             </div>
                                         )
                                         : null
@@ -178,8 +203,10 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                                         <Grid item xs={12}>
                                             <Paper elevation={3}>
                                                 <Box sx={{p: 2}}>
-                                                    <Typography variant="h6"
-                                                                gutterBottom>
+                                                    <Typography
+                                                        variant="h6"
+                                                        gutterBottom
+                                                    >
                                                         关联QA
                                                     </Typography>
                                                     {
@@ -189,9 +216,11 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                                                                     variant="body1"
                                                                     gutterBottom
                                                                     sx={{mb: 2}}
-                                                                    key={it.no}>
+                                                                    key={it.no}
+                                                                >
                                                                     <div
-                                                                        className="mb-0.5">
+                                                                        className="mb-0.5"
+                                                                    >
                                                                         <span>Q{it.no}：</span>
                                                                         {_.isEmpty(it.question_cn) ? it.question_jp : it.question_cn}
                                                                     </div>
@@ -210,21 +239,26 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                                         <Grid item xs={12}>
                                             <Paper elevation={3}>
                                                 <Box sx={{p: 2}}>
-                                                    <Typography variant="h6"
-                                                                gutterBottom>
+                                                    <Typography
+                                                        variant="h6"
+                                                        gutterBottom
+                                                    >
                                                         关联卡牌
                                                     </Typography>
                                                     <Grid container spacing={2}>
                                                         {
                                                             _.map(cardDetail.related_cards, it => {
                                                                 return (
-                                                                    <Grid xs={4}
-                                                                          md={3}
-                                                                          item
-                                                                          key={it.card_no}>
+                                                                    <Grid
+                                                                        xs={4}
+                                                                        md={3}
+                                                                        item
+                                                                        key={it.card_no}
+                                                                    >
                                                                         <CardCover
                                                                             onClick={() => handleNext(it)}
-                                                                            card={it}/>
+                                                                            card={it}
+                                                                        />
                                                                     </Grid>
                                                                 )
                                                             })
@@ -239,7 +273,7 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                         </Grid>
                     </Grid>
                 </Container>
-                <Toolbar/>
+                <Toolbar />
             </div>
         </div>
     )

@@ -7,8 +7,14 @@ import App from "./App";
 import "./style/index.scss";
 import muiTheme from "@/style/muiTheme";
 import {ThemeProvider} from "@mui/material";
+import {configResponsive} from "ahooks";
 
 const isDev = process.env.NODE_ENV === "development";
+
+configResponsive({
+    md: 900,
+    lg: 1200,
+});
 
 
 ReactDOM.render(

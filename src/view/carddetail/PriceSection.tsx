@@ -5,6 +5,7 @@ import {Typography, Paper, Box, Skeleton} from "@mui/material";
 import {Card} from "@/typing/Card";
 import {useRequest} from "ahooks";
 import CardService from "@/service/card/CardService";
+import _ from "lodash";
 
 export type PriceSectionProps = {
     card: Card;
@@ -37,8 +38,9 @@ const PriceSection: FC<PriceSectionProps> = (p) => {
                         <div className="flex-auto">
                             {
                                 loading
-                                    ? (<Skeleton animation="wave" height={32}/>)
-                                    : `${price}日元`
+                                    ? (
+                                        <Skeleton animation="wave" height={32} />)
+                                    : _.isEmpty(price) ? "暂无价格" : `${price}日元`
                             }
                         </div>
                     </div>

@@ -73,12 +73,12 @@ self.addEventListener("install", event => {
 const SERVER_ADDRESS = "{{serverAddress}}";
 
 const whitelist = [
-    "/assets/",
-    "/fonts/",
+    "/asset/",
+    "/font/",
 ];
 const useCacheWhenFailedList = [
     // first page of data
-    new RegExp(`${SERVER_ADDRESS}/recent$`),
+    new RegExp(`${SERVER_ADDRESS}/api$`),
     // new RegExp(`${SERVER_ADDRESS}/topic?t=[0-9]*$`)
 ];
 
