@@ -58,10 +58,9 @@ const CardDetail: FC<CardDetailProps> = (p) => {
 
     const handleNext = (d: Card) => {
         setCardDetail(d);
-        ref.current?.scrollTo({
-            top: -100,
-            behavior: "smooth",
-        });
+        if (ref.current) {
+            ref.current.scrollTop = 0;
+        }
         run({card_no: d.card_no});
     }
 

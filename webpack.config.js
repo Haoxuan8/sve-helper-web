@@ -3,6 +3,7 @@ const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const tailwindcss = require("tailwindcss");
 const autoprefixer = require("autoprefixer");
+const WorkboxPlugin = require("workbox-webpack-plugin");
 const WebpackPwaManifest = require("webpack-pwa-manifest");
 
 const isDev = process.env.NODE_ENV === "development";
@@ -20,16 +21,12 @@ module.exports = {
     mode: process.env.NODE_ENV,
     entry: {
         index: "./src/index.tsx",
-        sw: "./src/sw.js",
     },
     output: {
         path: `${__dirname}/build`,
         publicPath: "/",
         filename: (pathData) => {
-            if (isDev) {
-                return "[name].js";
-            }
-            return ["sw"].includes(pathData.chunk.name)
+            return isDev
                 ? "[name].js"
                 : "[name].[chunkhash].js";
         },
@@ -67,6 +64,10 @@ module.exports = {
                     destination: "asset/favicon",
                 },
             ],
+        }),
+        !isDev && new WorkboxPlugin.InjectManifest({
+            swSrc: `${__dirname}/src/sw.js`,
+            swDest: "sw.js",
         }),
         !isDev && new CleanWebpackPlugin(),
         isDev && new ReactRefreshWebpackPlugin(),

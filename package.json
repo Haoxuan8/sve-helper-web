@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "cross-env NODE_ENV=development webpack serve",
-        "build-serve": "http-server build",
+        "build-serve": "http-server build --proxy http://127.0.0.1:8080",
         "build": "cross-env NODE_ENV=production webpack --progress",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -17,6 +17,7 @@
         "@babel/preset-env": "^7.13.15",
         "@babel/preset-react": "^7.16.0",
         "@babel/preset-typescript": "^7.16.0",
+        "@babel/register": "^7.18.6",
         "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
         "@types/lodash": "^4.14.177",
         "@types/react": "^17.0.37",

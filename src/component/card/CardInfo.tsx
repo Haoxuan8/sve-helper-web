@@ -3,6 +3,7 @@ import React, {FC} from "react";
 import {Card as MuiCard, CardContent, Typography} from "@mui/material"
 import {mergeProps} from "@/util/withDefaultProps";
 import {Card, cardTypeName} from "@/typing/Card";
+import {useResponsive} from "ahooks";
 
 export type CardInfoProps = {
     card: Card;
@@ -13,11 +14,12 @@ const defaultProps = {};
 
 const CardInfo: FC<CardInfoProps> = (p) => {
     const props = mergeProps(defaultProps, p);
+    const responsive = useResponsive();
 
     return withNativeProps(
         props,
         <MuiCard
-            className="cursor-pointer transition-shadow hover:shadow-lg"
+            className={`cursor-pointer ${responsive.md ? "transition-shadow hover:shadow-lg" : ""}`}
             onClick={props.onClick}
             variant="outlined"
         >

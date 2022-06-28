@@ -1,107 +1,71 @@
-const getCacheName = () => "dynamic-v1";
+import {precacheAndRoute} from "workbox-precaching";
+import {clientsClaim} from "workbox-core";
+import {registerRoute} from "workbox-routing/registerRoute";
+import {CacheFirst} from "workbox-strategies/CacheFirst";
+import {NetworkFirst} from "workbox-strategies/NetworkFirst";
+import {
+    CacheableResponsePlugin,
+} from "workbox-cacheable-response/CacheableResponsePlugin";
+import {ExpirationPlugin} from "workbox-expiration";
 
-self.addEventListener("fetch", event => {
-    if (event.request.method !== "POST") {
-        return;
-    }
-    if (event.request.url.indexOf("http://") === 0) {
-        return;
-    }
+self.skipWaiting();
+clientsClaim();
+precacheAndRoute(self.__WB_MANIFEST);
 
-    event.respondWith(async function () {
-        // Try to get the response from a cache.
-        const cache = await caches.open(getCacheName());
-        const [cachedResponse, needRefresh] = await getCachedResponse(
-            cache,
-            event.request,
-        );
-        const useCacheWhenFailed = shouldUseCacheWhenFailed(event.request);
+registerRoute(
+    /^https:\/\/shadowverse-evolve.com\/wordpress\/wp-content\/images\/cardlist\/.*\.png/,
+    new CacheFirst({
+        cacheName: "image-cache-v1",
+        plugins: [
+            new CacheableResponsePlugin({
+                statuses: [0, 200],
+            }),
+        ],
+    }),
+);
 
-        if (cachedResponse && !useCacheWhenFailed) {
-            // If we found a match in the cache, return it, but also
-            // update the entry in the cache in the background.
-            needRefresh && event.waitUntil(cache.add(event.request));
-            return cachedResponse;
+registerRoute(
+    /\/.*\.(png|jpg)/,
+    new CacheFirst({
+        cacheName: "image-cache-v1",
+        plugins: [
+            new CacheableResponsePlugin({
+                statuses: [0, 200],
+            }),
+        ],
+    }),
+);
+
+registerRoute(
+    /\/.*\.(js|html|css)/,
+    new NetworkFirst({
+        cacheName: "static-cache-v1",
+    }),
+);
+
+const savePostResponsePlugin = {
+    cacheKeyWillBeUsed: async ({
+        request,
+        mode,
+    }) => {
+        if (mode === "write") {
+            // Use the same URL as `POST` request as the cache key.
+            // Alternatively, use a different URL.
+            return request.url;
         }
+    },
+};
 
-        let response;
-        try {
-            response = await fetch(event.request);
-        } catch (ex) {
-            if (useCacheWhenFailed && cachedResponse) {
-                return cachedResponse;
-            }
-            throw ex;
-        }
-        if (shouldCache(event.request)) {
-            await cache.put(event.request, response.clone());
-        }
-        return response;
-    }());
-});
-
-function getCachedResponse(cache, request) {
-    const indexes = [
-        /\/t\/[0-9]*$/,
-    ];
-    let needRefresh = true;
-    if (request.url) {
-        const url = new URL(request.url);
-        if (indexes.some((val) => {
-            return val.test(url.pathname);
-        })) {
-            needRefresh = false;
-            console.log(url, "matched index");
-            return cache.match("/")
-                .then(ret => [ret, needRefresh]);
-        }
-    }
-    return cache.match(request)
-        .then(ret => [ret, needRefresh]);
-}
-
-self.addEventListener("install", event => {
-    // add caches
-    return event.waitUntil(caches.open(getCacheName())
-        .then((cache) => {
-            return cache.addAll([
-                "/",
-            ]);
-        }));
-});
-
-const SERVER_ADDRESS = "{{serverAddress}}";
-
-const whitelist = [
-    "/asset/",
-    "/font/",
-];
-const useCacheWhenFailedList = [
-    // first page of data
-    new RegExp(`${SERVER_ADDRESS}/api$`),
-    // new RegExp(`${SERVER_ADDRESS}/topic?t=[0-9]*$`)
-];
-
-function shouldCache(request) {
-    const origin = location.origin;
-    for (let value of whitelist) {
-        if (request.url.indexOf(origin + value) === 0) {
-            return true;
-        }
-    }
-    for (let reg of useCacheWhenFailedList) {
-        if (reg.test(request.url)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function shouldUseCacheWhenFailed(request) {
-    for (let reg of useCacheWhenFailedList) {
-        if (reg.test(request.url)) {
-            return true;
-        }
-    }
-    return false;
-}
+registerRoute(
+    /\/api\//,
+    new NetworkFirst({
+        cacheName: "api-cache-v1",
+        plugins: [
+            savePostResponsePlugin,
+            new ExpirationPlugin({
+                maxAgeSeconds: 24 * 60 * 60,
+            }),
+        ],
+    }),
+    "POST",
+);

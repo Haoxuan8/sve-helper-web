@@ -61,7 +61,7 @@ const CardCover: FC<CardCoverProps> = (p) => {
                 ref={ref}
                 className={`relative transition-all ${props.onClick == null ? "" : "cursor-pointer md:hover:scale-110 md:hover:drop-shadow-md"}`}
                 onClick={props.onClick}
-                style={{minHeight: 250}}
+                style={{minHeight: 100}}
             >
                 <img
                     style={{opacity: loaded ? 0 : 1}}
