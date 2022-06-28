@@ -7,10 +7,12 @@ import {
     List,
     ListItem,
     ListItemButton,
-    ListItemIcon, ListItemText
+    ListItemIcon, ListItemText, ListSubheader
 } from "@mui/material";
 import config from "@/config";
 import {matchPath, useLocation, useNavigate} from "react-router";
+import BookIcon from "@mui/icons-material/Book";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 export type MenuDrawerProps = {
     visible: boolean;
@@ -36,7 +38,7 @@ const MenuDrawer: FC<MenuDrawerProps> = (p) => {
                     {
                         config.menus.map(it => {
                             if (it.key === "divider") {
-                                return <Divider/>;
+                                return <Divider />;
                             }
                             const isSelected = matchPath(`/${it.key}/*`, location.pathname) != null;
                             return (
@@ -49,14 +51,37 @@ const MenuDrawer: FC<MenuDrawerProps> = (p) => {
                                         }}
                                     >
                                         <ListItemIcon>
-                                            <it.Icon/>
+                                            <it.Icon />
                                         </ListItemIcon>
-                                        <ListItemText primary={it.name}/>
+                                        <ListItemText primary={it.name} />
                                     </ListItemButton>
                                 </ListItem>
                             )
                         })
                     }
+                    <Divider />
+                    <ListSubheader component="div">
+                        外部链接
+                    </ListSubheader>
+                    <ListItem
+                        sx={{px: 0}}
+                    >
+                        <ListItemButton
+                            onClick={() => {
+                                window.open("https://shadowverse-evolve-comprehensive-rules.readthedocs.io/");
+                            }}
+                        >
+                            <ListItemIcon>
+                                <BookIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="SVE规则书"
+                            />
+                            <ListItemIcon sx={{minWidth: 0}}>
+                                <OpenInNewIcon />
+                            </ListItemIcon>
+                        </ListItemButton>
+                    </ListItem>
                 </List>
             </Box>
         </Drawer>

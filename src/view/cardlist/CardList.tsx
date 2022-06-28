@@ -31,6 +31,9 @@ import CardCover from "@/component/card/CardCover";
 import LoadMore from "@/component/loadmore/LoadMore";
 import useRouteModal from "@/hook/useRouteModal";
 import CardDetail from "@/view/carddetail/CardDetail";
+import {useConfigContext} from "@/context/ConfigContextProvider";
+import CardInfo from "@/component/card/CardInfo";
+import {Masonry} from "@mui/lab";
 
 export type CardListProps = {} & NativeProps;
 
@@ -55,6 +58,7 @@ const getParams = (values: any) => {
 
 const CardList: FC<CardListProps> = (p) => {
     const props = mergeProps(defaultProps, p);
+    const [config] = useConfigContext();
     const [cardList, setCardList] = useState<Card[]>([]);
     const [total, setTotal] = useState(0);
     const [moreFilter, setMoreFilter] = useState(false);
@@ -85,6 +89,11 @@ const CardList: FC<CardListProps> = (p) => {
         });
     }
 
+    const onCardClick = (card: Card) => {
+        cardDetailRouteModal.show({
+            card,
+        });
+    }
 
     return (
         <Box sx={{my: 2}}>
@@ -238,24 +247,46 @@ const CardList: FC<CardListProps> = (p) => {
                 }}
             />
             <Box sx={{my: 4}}>
-                <Grid container spacing={2}>
-                    {
-                        cardList.map(it => {
-                            return (
-                                <Grid key={it.id} item xs={4} md={3} lg={2}>
-                                    <CardCover
-                                        onClick={() => {
-                                            cardDetailRouteModal.show({
-                                                card: it,
-                                            });
-                                        }}
-                                        card={it}
-                                    />
-                                </Grid>
-                            )
-                        })
-                    }
-                </Grid>
+                {
+                    config.disableCardCover
+                        ? (
+                            <Masonry columns={{xs: 2, md: 3, lg: 4}}>
+                                {
+                                    cardList.map(it => {
+                                        return (
+                                            <CardInfo
+                                                key={it.id}
+                                                onClick={() => onCardClick(it)}
+                                                card={it}
+                                            />
+                                        )
+                                    })
+                                }
+                            </Masonry>
+                        )
+                        : (
+                            <Grid container spacing={2}>
+                                {
+                                    cardList.map(it => {
+                                        return (
+                                            <Grid
+                                                key={it.id}
+                                                item
+                                                xs={4}
+                                                md={3}
+                                                lg={2}
+                                            >
+                                                <CardCover
+                                                    onClick={() => onCardClick(it)}
+                                                    card={it}
+                                                />
+                                            </Grid>
+                                        )
+                                    })
+                                }
+                            </Grid>
+                        )
+                }
                 <LoadMore
                     loading={loading}
                     hasMore={hasMore}

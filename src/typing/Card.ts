@@ -32,12 +32,12 @@ export enum CardType {
 }
 
 export const cardTypeName = {
-    [CardType.Follower]: "随从",
-    [CardType.FollowerEvo]: "随从·进化",
+    [CardType.Follower]: "从者",
+    [CardType.FollowerEvo]: "从者·进化",
     [CardType.Spell]: "法术",
     [CardType.Amulet]: "护符",
     [CardType.Leader]: "主战者",
-    [CardType.FollowerToken]: "随从··Token",
+    [CardType.FollowerToken]: "从者·Token",
     [CardType.SpellToken]: "法术·Token",
     [CardType.AmuletToken]: "护符·Token",
 }

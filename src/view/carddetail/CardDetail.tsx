@@ -19,6 +19,9 @@ import CardService from "@/service/card/CardService";
 import CardCover from "@/component/card/CardCover";
 import _ from "lodash";
 import PriceSection from "@/view/carddetail/PriceSection";
+import {useConfigContext} from "@/context/ConfigContextProvider";
+import {Masonry} from "@mui/lab";
+import CardInfo from "@/component/card/CardInfo";
 
 export type CardDetailProps = {
     card?: Card,
@@ -27,10 +30,16 @@ export type CardDetailProps = {
 
 const defaultProps = {};
 
+const renderText = (str: string | number | null): string => {
+    if (str === "" || str == null || str === -1) return "-";
+    else return `${str}`;
+}
+
 const CardDetail: FC<CardDetailProps> = (p) => {
     const props = mergeProps(defaultProps, p);
     const ref = useRef<HTMLDivElement>(null);
     const [cardDetail, setCardDetail] = useState<CardDetailType | undefined>(props.card);
+    const [config] = useConfigContext();
 
     const cardDetailStackRef = useRef<CardDetailType[]>([]);
 
@@ -49,6 +58,10 @@ const CardDetail: FC<CardDetailProps> = (p) => {
 
     const handleNext = (d: Card) => {
         setCardDetail(d);
+        ref.current?.scrollTo({
+            top: -100,
+            behavior: "smooth",
+        });
         run({card_no: d.card_no});
     }
 
@@ -110,10 +123,14 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                                 <Grid item xs={12}>
                                     <Paper elevation={3}>
                                         <Box sx={{p: 2}}>
-                                            <CardCover
-                                                card={cardDetail}
-                                                style={{marginBottom: 8}}
-                                            />
+                                            {
+                                                !config.disableCardCover && (
+                                                    <CardCover
+                                                        card={cardDetail}
+                                                        style={{marginBottom: 8}}
+                                                    />
+                                                )
+                                            }
                                             <Typography
                                                 variant="h6"
                                                 component="div"
@@ -132,27 +149,50 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                                             >
                                                 {cardDetail.name_jp}
                                             </Typography>
+                                            <div className="flex flex-wrap mb-2">
+                                                <Typography
+                                                    sx={{mr: 2}}
+                                                    variant="body1"
+                                                    component="div"
+                                                >
+                                                    消费：{renderText(cardDetail.cost)}
+                                                </Typography>
+                                                <Typography
+                                                    sx={{mr: 2}}
+                                                    variant="body1"
+                                                    component="div"
+                                                >
+                                                    攻击力：{renderText(cardDetail.attack)}
+                                                </Typography>
+                                                <Typography
+                                                    sx={{mr: 2}}
+                                                    variant="body1"
+                                                    component="div"
+                                                >
+                                                    生命值：{renderText(cardDetail.life)}
+                                                </Typography>
+                                            </div>
                                             <div className="flex flex-wrap">
                                                 <Typography
                                                     sx={{mr: 2}}
                                                     variant="body1"
                                                     component="div"
                                                 >
-                                                    种类：{cardTypeName[cardDetail.card_type]}
+                                                    种类：{renderText(cardTypeName[cardDetail.card_type])}
                                                 </Typography>
                                                 <Typography
                                                     sx={{mr: 2}}
                                                     variant="body1"
                                                     component="div"
                                                 >
-                                                    类型：{cardDetail.type}
+                                                    类型：{renderText(cardDetail.type)}
                                                 </Typography>
                                                 <Typography
                                                     sx={{mr: 2}}
                                                     variant="body1"
                                                     component="div"
                                                 >
-                                                    稀有度：{rareName[cardDetail.rare]}
+                                                    稀有度：{renderText(rareName[cardDetail.rare])}
                                                 </Typography>
                                             </div>
                                         </Box>
@@ -245,25 +285,53 @@ const CardDetail: FC<CardDetailProps> = (p) => {
                                                     >
                                                         关联卡牌
                                                     </Typography>
-                                                    <Grid container spacing={2}>
-                                                        {
-                                                            _.map(cardDetail.related_cards, it => {
-                                                                return (
-                                                                    <Grid
-                                                                        xs={4}
-                                                                        md={3}
-                                                                        item
-                                                                        key={it.card_no}
-                                                                    >
-                                                                        <CardCover
-                                                                            onClick={() => handleNext(it)}
-                                                                            card={it}
-                                                                        />
-                                                                    </Grid>
-                                                                )
-                                                            })
-                                                        }
-                                                    </Grid>
+                                                    {
+                                                        config.disableCardCover
+                                                            ? (
+                                                                <Masonry
+                                                                    columns={{
+                                                                        xs: 2,
+                                                                        md: 3
+                                                                    }}
+                                                                >
+                                                                    {
+                                                                        _.map(cardDetail.related_cards, it => {
+                                                                            return (
+                                                                                <CardInfo
+                                                                                    key={it.id}
+                                                                                    onClick={() => handleNext(it)}
+                                                                                    card={it}
+                                                                                />
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </Masonry>
+                                                            )
+                                                            : (
+                                                                <Grid
+                                                                    container
+                                                                    spacing={2}
+                                                                >
+                                                                    {
+                                                                        _.map(cardDetail.related_cards, it => {
+                                                                            return (
+                                                                                <Grid
+                                                                                    xs={4}
+                                                                                    md={3}
+                                                                                    item
+                                                                                    key={it.card_no}
+                                                                                >
+                                                                                    <CardCover
+                                                                                        onClick={() => handleNext(it)}
+                                                                                        card={it}
+                                                                                    />
+                                                                                </Grid>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </Grid>
+                                                            )
+                                                    }
                                                 </Box>
                                             </Paper>
                                         </Grid>
