@@ -1,6 +1,7 @@
 import React, {FC, useMemo, useRef, useState} from "react";
 import {NativeProps} from "@/util/nativeProps";
 import {mergeProps} from "@/util/withDefaultProps";
+import _ from "lodash";
 import {
     Box,
     Button,
@@ -16,6 +17,8 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import {useRequest} from "ahooks";
 import CardService from "@/service/card/CardService";
 import {
+    Ability,
+    abilityName,
     Card,
     Category,
     categoryName,
@@ -44,6 +47,10 @@ const nopArr: any[] = [];
 const crafts = [Craft.Forest, Craft.Sword, Craft.Rune, Craft.Dragon, Craft.Nightmare, Craft.Haven, Craft.Neutral];
 const rares = [Rare.BR, Rare.BRP, Rare.SR, Rare.SRP, Rare.GR, Rare.GRP, Rare.LG, Rare.SL, Rare.UR, Rare.SP];
 const categories = [Category.BP02, Category.BP01, Category.SD01, Category.SD02, Category.SD03, Category.SD04, Category.SD05, Category.SD06];
+const costs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const abilities = [Ability.Fanfare, Ability.LastWord, Ability.Startup, Ability.Evolve, Ability.Evolving, Ability.Storm, Ability.Rush, Ability.Guard,
+    Ability.Drain, Ability.Kill, Ability.Scarlet, Ability.Awaken, Ability.DAttack, Ability.Pressure, Ability.Aura, Ability.NCharge, Ability.SCharge,
+    Ability.Quick,]
 
 const LIMIT = 24;
 
@@ -53,6 +60,8 @@ const getParams = (values: any) => {
         craft: values.craft,
         rare: values.rare,
         from: values.from,
+        ability: values.ability,
+        cost: values.cost,
     }
 }
 
@@ -191,6 +200,49 @@ const CardList: FC<CardListProps> = (p) => {
                                                                 )
                                                             })
                                                         }
+                                                    </Field>
+                                                </Grid>
+                                                <Grid item xs={12} md={6}>
+                                                    <Field
+                                                        fullWidth
+                                                        multiple
+                                                        initialValue={nopArr}
+                                                        name="cost"
+                                                        component={Select}
+                                                        label="花费"
+                                                        formControlProps={{fullWidth: true}}
+                                                    >
+                                                        {costs.map(it => {
+                                                            const name = it === 10 ? "10+" : it;
+                                                            return (
+                                                                <MenuItem
+                                                                    key={it}
+                                                                    value={it}
+                                                                >
+                                                                    {name}
+                                                                </MenuItem>
+                                                            )
+                                                        })}
+                                                    </Field>
+                                                </Grid>
+                                                <Grid item xs={12} md={6}>
+                                                    <Field
+                                                        fullWidth
+                                                        multiple
+                                                        initialValue={nopArr}
+                                                        name="ability"
+                                                        component={Select}
+                                                        label="能力"
+                                                        formControlProps={{fullWidth: true}}
+                                                    >
+                                                        {abilities.map(it => (
+                                                            <MenuItem
+                                                                key={it}
+                                                                value={it}
+                                                            >
+                                                                {abilityName[it]}
+                                                            </MenuItem>
+                                                        ))}
                                                     </Field>
                                                 </Grid>
                                             </Grid>

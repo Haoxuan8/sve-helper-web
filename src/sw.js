@@ -43,29 +43,13 @@ registerRoute(
     }),
 );
 
-const savePostResponsePlugin = {
-    cacheKeyWillBeUsed: async ({
-        request,
-        mode,
-    }) => {
-        if (mode === "write") {
-            // Use the same URL as `POST` request as the cache key.
-            // Alternatively, use a different URL.
-            return request.url;
-        }
-    },
-};
-
-registerRoute(
-    /\/api\//,
-    new NetworkFirst({
-        cacheName: "api-cache-v1",
-        plugins: [
-            savePostResponsePlugin,
-            new ExpirationPlugin({
-                maxAgeSeconds: 24 * 60 * 60,
-            }),
-        ],
-    }),
-    "POST",
-);
+// TODO: 缓存POST响应到IndexedDB
+// registerRoute(
+//     /\/api\//,
+//     ({
+//         request,
+//         event,
+//     }) => {
+//     },
+//     "POST",
+// );

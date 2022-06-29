@@ -90,6 +90,48 @@ export const categoryName = {
     [Category.BP02]: "[BP02]ブースターパック第2弾「黒銀のバハムート」",
 }
 
+export enum Ability {
+    Fanfare,
+    LastWord,
+    Startup,
+    Evolve,
+    Evolving,
+    Storm,
+    Rush,
+    Guard,
+    Drain,
+    Kill,
+    Scarlet,
+    Awaken,
+    DAttack,
+    Pressure,
+    Aura,
+    NCharge,
+    SCharge,
+    Quick,
+}
+
+export const abilityName = {
+    [Ability.Fanfare]: "入场曲",
+    [Ability.LastWord]: "谢幕曲",
+    [Ability.Startup]: "启动",
+    [Ability.Evolve]: "进化",
+    [Ability.Evolving]: "进化时",
+    [Ability.Storm]: "疾驰",
+    [Ability.Rush]: "突进",
+    [Ability.Guard]: "守护",
+    [Ability.Drain]: "吸血",
+    [Ability.Kill]: "必杀",
+    [Ability.Scarlet]: "真红",
+    [Ability.Awaken]: "觉醒",
+    [Ability.DAttack]: "指定攻击",
+    [Ability.Pressure]: "威压",
+    [Ability.Aura]: "灵气",
+    [Ability.NCharge]: "死灵充能",
+    [Ability.SCharge]: "魔力连锁",
+    [Ability.Quick]: "快速",
+}
+
 export interface Card {
     attack: number;
     card_no: string;

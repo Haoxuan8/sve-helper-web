@@ -73,7 +73,7 @@ const requestCore = async (options: requestOptions) => {
         });
     } catch (e) {
         console.log("fetch", e);
-        throw new Error("网络连接失败，请重试!");
+        throw new Error("网络连接失败，请稍候重试!");
     }
 
     if (options.responseType === HttpType.JSON) {
