@@ -64,7 +64,7 @@ const CardCover: FC<CardCoverProps> = (p) => {
                 style={{minHeight: 100}}
             >
                 <img
-                    className="absolute inset-0 transition-opacity duration-300"
+                    className="absolute inset-0 transition-opacity duration-300 z-10"
                     style={{opacity: loaded ? 1 : 0}}
                     src={loaded ? getImageUrl(props.card) : DefaultCardCover}
                 />
