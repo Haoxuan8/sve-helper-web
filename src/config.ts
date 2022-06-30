@@ -1,6 +1,8 @@
 import HomeIcon from "@mui/icons-material/Home";
 import StyleIcon from "@mui/icons-material/Style";
 import SettingsIcon from "@mui/icons-material/Settings";
+import ForwardToInboxIcon
+    from "@mui/icons-material/ForwardToInbox";
 
 type RouteItem = {
     key: string;
@@ -19,6 +21,10 @@ const routes: RouteItem[] = [
     {
         key: "setting",
         component: () => import("./view/setting/Setting"),
+    },
+    {
+        key: "suggestion",
+        component: () => import("./view/suggestion/SuggestionBox"),
     }
 ];
 
@@ -46,6 +52,11 @@ const menus: MenuItem[] = [
         name: "设置",
         Icon: SettingsIcon,
     },
+    {
+        key: "suggestion",
+        name: "意见箱",
+        Icon: ForwardToInboxIcon,
+    }
 ]
 
 export default {
