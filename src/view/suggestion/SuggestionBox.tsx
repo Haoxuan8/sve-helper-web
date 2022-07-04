@@ -25,11 +25,10 @@ const SuggestionBox: FC<SuggestionBoxProps> = (p) => {
     const [submitted, setSubmitted] = useState(false);
 
     const onSubmit = async (values: any) => {
-        // await HelpService.sendSuggestionAsync({
-        //     title: values.title,
-        //     content: values.content,
-        // });
-        await sleep(2000);
+        await HelpService.sendSuggestionAsync({
+            title: values.title,
+            content: values.content,
+        });
         Alert.show({
             severity: "success",
             children: "提交成功，感谢对本网站的支持！",
