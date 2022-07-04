@@ -52,11 +52,11 @@ const menus: MenuItem[] = [
         name: "设置",
         Icon: SettingsIcon,
     },
-    // {
-    //     key: "suggestion",
-    //     name: "意见箱",
-    //     Icon: ForwardToInboxIcon,
-    // }
+    {
+        key: "suggestion",
+        name: "意见箱",
+        Icon: ForwardToInboxIcon,
+    }
 ]
 
 export default {

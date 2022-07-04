@@ -1,5 +1,5 @@
 import {NativeProps, withNativeProps} from "@/util/nativeProps";
-import React, {FC} from "react";
+import React, {FC, useState} from "react";
 import {mergeProps} from "@/util/withDefaultProps";
 import {Box} from "@mui/material";
 import {Field, Form} from "react-final-form";
@@ -7,6 +7,8 @@ import TextField from "@/component/formfield/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SendIcon from "@mui/icons-material/Send";
 import sleep from "@/util/sleep";
+import HelpService from "@/service/help/HelpService";
+import Alert from "@/component/alert";
 
 export type SuggestionBoxProps = {} & NativeProps;
 
@@ -20,9 +22,19 @@ const max = (max: number) => (value: any) => (value ? value.length > max ? `不�
 
 const SuggestionBox: FC<SuggestionBoxProps> = (p) => {
     const props = mergeProps(defaultProps, p);
+    const [submitted, setSubmitted] = useState(false);
 
     const onSubmit = async (values: any) => {
+        // await HelpService.sendSuggestionAsync({
+        //     title: values.title,
+        //     content: values.content,
+        // });
         await sleep(2000);
+        Alert.show({
+            severity: "success",
+            children: "提交成功，感谢对本网站的支持！",
+        });
+        setSubmitted(true);
     }
 
     return withNativeProps(
@@ -61,8 +73,9 @@ const SuggestionBox: FC<SuggestionBoxProps> = (p) => {
                                     size="medium"
                                     endIcon={<SendIcon />}
                                     loading={submitting}
+                                    disabled={submitted}
                                 >
-                                    提交
+                                    {submitted ? "已提交" : "提交"}
                                 </LoadingButton>
                             </Box>
                         </form>
