@@ -4,7 +4,7 @@ import {mergeProps} from "@/util/withDefaultProps";
 import {Typography, Paper, Box, Skeleton} from "@mui/material";
 import {Card} from "@/typing/Card";
 import {useRequest} from "ahooks";
-import CardService from "@/service/card/CardService";
+import CardService, {PriceDetail} from "@/service/card/CardService";
 import _ from "lodash";
 
 export type PriceSectionProps = {
@@ -13,11 +13,16 @@ export type PriceSectionProps = {
 
 const defaultProps = {};
 
+const renderUUTStock = (text: string | undefined): string => {
+    if (_.isEmpty(text)) return "";
+    else return `库存：${text}`;
+}
+
 const PriceSection: FC<PriceSectionProps> = (p) => {
     const props = mergeProps(defaultProps, p);
-    const [price, setPrice] = useState<string>();
+    const [price, setPrice] = useState<PriceDetail>();
 
-    const {loading, run} = useRequest(CardService.getCardPriceAsync, {
+    const {loading, run} = useRequest(CardService.getCardPriceDetailAsync, {
         manual: true,
         onSuccess: (result) => {
             setPrice(result);
@@ -27,6 +32,10 @@ const PriceSection: FC<PriceSectionProps> = (p) => {
     useEffect(() => {
         run({card_no: props.card.card_no});
     }, [props.card.card_no]);
+
+    const uut = price?.uut;
+    const uutPrice = uut?.price;
+    const uutStock = uut?.stock;
 
     return withNativeProps(
         props,
@@ -40,7 +49,16 @@ const PriceSection: FC<PriceSectionProps> = (p) => {
                                 loading
                                     ? (
                                         <Skeleton animation="wave" height={32} />)
-                                    : _.isEmpty(price) ? "暂无价格" : `${price}日元`
+                                    : (
+                                        <>
+                                            <span className="mr-6">
+                                                  {_.isEmpty(uutPrice) ? "暂无价格" : `${uutPrice}日元`}
+                                            </span>
+                                            <span>
+                                                  {renderUUTStock(uutStock)}
+                                            </span>
+                                        </>
+                                    )
                             }
                         </div>
                     </div>

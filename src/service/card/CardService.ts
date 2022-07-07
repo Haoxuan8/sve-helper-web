@@ -16,8 +16,17 @@ const getCardPriceAsync = (params: object): Promise<string> => {
     return remoteCall.post("getCardPrice", params);
 };
 
+export type PriceDetail = {
+    uut: { price: string, stock: string };
+}
+
+const getCardPriceDetailAsync = (params: object): Promise<PriceDetail> => {
+    return remoteCall.post("getCardPriceDetail", params);
+};
+
 export default {
     getCardListAsync,
     getCardDetailAsync,
     getCardPriceAsync,
+    getCardPriceDetailAsync,
 };
