@@ -26,7 +26,7 @@ const BackTop = (props: BackTopProps) => {
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         const anchor = (
             (event.target as HTMLDivElement).ownerDocument || document
-        ).querySelector('#back-to-top-anchor');
+        ).querySelector("#back-to-top-anchor");
 
         if (anchor) {
             anchor.scrollIntoView({
@@ -41,7 +41,7 @@ const BackTop = (props: BackTopProps) => {
             <Box
                 onClick={handleClick}
                 role="presentation"
-                sx={{position: 'fixed', bottom: 16, right: 16}}
+                sx={{position: "fixed", bottom: 16, right: 16, zIndex: 99}}
             >
                 {props.children}
             </Box>

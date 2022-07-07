@@ -10,7 +10,18 @@ import {ExpirationPlugin} from "workbox-expiration";
 
 self.skipWaiting();
 clientsClaim();
-precacheAndRoute(self.__WB_MANIFEST);
+
+// 不缓存index.html，会导致离线情况下无法访问网站。
+const toPrecache = self.__WB_MANIFEST.filter(
+    (file) => !file.url.includes("index.html"),
+);
+
+precacheAndRoute(toPrecache);
+
+registerRoute(
+    ({url}) => url.pathname.includes("index.html"),
+    new NetworkFirst(),
+);
 
 registerRoute(
     /^https:\/\/shadowverse-evolve.com\/wordpress\/wp-content\/images\/cardlist\/.*\.png/,
