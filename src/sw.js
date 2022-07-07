@@ -12,6 +12,7 @@ self.skipWaiting();
 clientsClaim();
 
 // 不缓存index.html，会导致离线情况下无法访问网站。
+// TODO: 目前处于功能开发阶段，更新频繁，先不缓存index.html，等稳定了后再缓存
 const toPrecache = self.__WB_MANIFEST.filter(
     (file) => !file.url.includes("index.html"),
 );
