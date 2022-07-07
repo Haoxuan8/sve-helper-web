@@ -49,8 +49,8 @@ const rares = [Rare.BR, Rare.BRP, Rare.SR, Rare.SRP, Rare.GR, Rare.GRP, Rare.LG,
 const categories = [Category.BP02, Category.BP01, Category.SD01, Category.SD02, Category.SD03, Category.SD04, Category.SD05, Category.SD06];
 const costs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const abilities = [Ability.Fanfare, Ability.LastWord, Ability.Startup, Ability.Evolve, Ability.Evolving, Ability.Storm, Ability.Rush, Ability.Guard,
-    Ability.Drain, Ability.Kill, Ability.Scarlet, Ability.Awaken, Ability.DAttack, Ability.Pressure, Ability.Aura, Ability.NCharge, Ability.SCharge,
-    Ability.Quick,]
+    Ability.Drain, Ability.Kill, Ability.DAttack, Ability.Pressure, Ability.Aura, Ability.Scarlet, Ability.Awaken, Ability.NCharge, Ability.SCharge, Ability.Stack,
+    Ability.EarthMystery, Ability.Quick,]
 
 const LIMIT = 24;
 

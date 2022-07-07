@@ -109,6 +109,8 @@ export enum Ability {
     NCharge,
     SCharge,
     Quick,
+    Stack,
+    EarthMystery,
 }
 
 export const abilityName = {
@@ -130,6 +132,8 @@ export const abilityName = {
     [Ability.NCharge]: "死灵充能",
     [Ability.SCharge]: "魔力连锁",
     [Ability.Quick]: "快速",
+    [Ability.Stack]: "积蓄",
+    [Ability.EarthMystery]: "土之秘术",
 }
 
 export interface Card {
