@@ -81,7 +81,7 @@ const CardList: FC<CardListProps> = (p) => {
             <Grid container spacing={2}>
                 <Grid item xs={12} md={4}>
                     <CardFilter
-                        className="md:sticky md:top-20 md:max-h-[80vh] md:overflow-auto md:relative"
+                        className="mt-4 md:mt-0 md:sticky md:top-20 md:max-h-[80vh] md:overflow-auto md:relative"
                         onSubmit={onSubmit}
                     />
                 </Grid>
