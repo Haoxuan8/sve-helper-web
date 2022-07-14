@@ -80,14 +80,14 @@ export enum Category {
 }
 
 export const categoryName = {
-    [Category.BP01]: "[BP01]ブースターパック第1弾 「創世の夜明け」",
-    [Category.SD01]: "[SD01]スターターデッキ第1弾 「麗しの妖精姫」",
-    [Category.SD02]: "[SD02]スターターデッキ第2弾 「怨讐刀鬼」",
-    [Category.SD03]: "[SD03]スターターデッキ第3弾 「神秘錬成」",
-    [Category.SD04]: "[SD04]スターターデッキ第4弾 「蛇竜の爪牙」",
-    [Category.SD05]: "[SD05]スターターデッキ第5弾 「永久なる定め」",
-    [Category.SD06]: "[SD06]スターターデッキ第6弾 「穢れし洗礼」",
-    [Category.BP02]: "[BP02]ブースターパック第2弾「黒銀のバハムート」",
+    [Category.BP01]: "[BP01]「創世の夜明け」",
+    [Category.SD01]: "[SD01]「麗しの妖精姫」",
+    [Category.SD02]: "[SD02]「怨讐刀鬼」",
+    [Category.SD03]: "[SD03]「神秘錬成」",
+    [Category.SD04]: "[SD04]「蛇竜の爪牙」",
+    [Category.SD05]: "[SD05]「永久なる定め」",
+    [Category.SD06]: "[SD06]「穢れし洗礼」",
+    [Category.BP02]: "[BP02]「黒銀のバハムート」",
 }
 
 export enum Ability {

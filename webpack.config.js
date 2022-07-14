@@ -111,6 +111,14 @@ module.exports = {
                 ],
             },
             {
+                test: /\.css$/i,
+                include: /node_modules/,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                ],
+            },
+            {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: "asset",
             },
