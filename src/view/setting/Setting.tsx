@@ -50,7 +50,7 @@ const Setting: FC<SettingProps> = (p) => {
                         expandIcon={<ExpandMoreIcon />}
                     >
                         <Typography>
-                            基本设置
+                            卡牌列表设置
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>

@@ -17,26 +17,13 @@ import CardDetail from "@/view/carddetail/CardDetail";
 import {useConfigContext} from "@/context/ConfigContextProvider";
 import CardInfo from "@/component/card/CardInfo";
 import {Masonry} from "@mui/lab";
-import CardFilter from "@/component/card/CardFilter";
+import CardFilter, {getParams} from "@/component/card/CardFilter";
 
 export type CardListProps = {} & NativeProps;
 
 const defaultProps = {};
 
 const LIMIT = 24;
-
-const getParams = (values: any) => {
-    const getArray = (v: any) => v == null ? undefined : [v];
-
-    return {
-        name: values.name,
-        craft: values.craft,
-        rare: values.rare,
-        from: values.from,
-        ability: getArray(values.ability),
-        cost: values.cost.map((it: string) => parseInt(it)),
-    }
-}
 
 const CardList: FC<CardListProps> = (p) => {
     const props = mergeProps(defaultProps, p);

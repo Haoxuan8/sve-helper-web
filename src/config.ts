@@ -3,6 +3,7 @@ import StyleIcon from "@mui/icons-material/Style";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ForwardToInboxIcon
     from "@mui/icons-material/ForwardToInbox";
+import PrintIcon from "@mui/icons-material/Print";
 
 type RouteItem = {
     key: string;
@@ -17,6 +18,10 @@ const routes: RouteItem[] = [
     {
         key: "card-list",
         component: () => import("./view/cardlist/CardList"),
+    },
+    {
+        key: "print",
+        component: () => import("./view/print/Print"),
     },
     {
         key: "setting",
@@ -45,6 +50,11 @@ const menus: MenuItem[] = [
         key: "card-list",
         name: "卡牌列表",
         Icon: StyleIcon,
+    },
+    {
+        key: "print",
+        name: "打印卡牌",
+        Icon: PrintIcon,
     },
     {key: "divider"},
     {

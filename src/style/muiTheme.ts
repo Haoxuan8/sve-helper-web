@@ -1,9 +1,15 @@
 import {createTheme} from "@mui/material";
 
+export const primaryColor = "#000";
+export const secondaryColor = "#7278A8";
+
 const theme = createTheme({
     palette: {
         primary: {
-            main: "#000"
+            main: primaryColor,
+        },
+        secondary: {
+            main: secondaryColor,
         },
     },
     typography: {

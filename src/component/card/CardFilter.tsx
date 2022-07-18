@@ -55,6 +55,19 @@ export type CardFilterProps = {
 
 const defaultProps = {};
 
+export const getParams = (values: any) => {
+    const getArray = (v: any) => v == null ? undefined : [v];
+
+    return {
+        name: values.name,
+        craft: values.craft,
+        rare: values.rare,
+        from: values.from,
+        ability: getArray(values.ability),
+        cost: values.cost.map((it: string) => parseInt(it)),
+    }
+}
+
 const CardFilter: FC<CardFilterProps> = (p) => {
     const props = mergeProps(defaultProps, p);
     const [moreFilter, setMoreFilter] = useState(false);

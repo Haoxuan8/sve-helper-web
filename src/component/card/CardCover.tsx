@@ -1,19 +1,20 @@
 import {NativeProps, withNativeProps} from "@/util/nativeProps";
-import React, {FC, useEffect, useRef, useState} from "react";
+import React, {FC, ReactNode, useEffect, useRef, useState} from "react";
 import {mergeProps} from "@/util/withDefaultProps";
 import {Card} from "@/typing/Card";
 import _ from "lodash";
 import DefaultCardCover from "@/asset/image/default_card_cover.png";
 import {useInViewport, useRequest} from "ahooks";
 
-const getImageUrl = (card: Card): string => {
+export const getCardImageUrl = (card: Card, proxy: boolean = false): string => {
     const base = "https://shadowverse-evolve.com/wordpress/wp-content/images/cardlist";
+    const proxyBase = "https://www.svehelperwin.com/images";
     let cardNo = card.card_no;
     if (_.startsWith(card.card_no, "BP")) {
         cardNo = cardNo.toLowerCase();
         cardNo = _.replace(cardNo, "-", "_");
     }
-    return `${base}/${card.from}/${cardNo}.png`;
+    return proxy ? `${proxyBase}/${card.from}/${cardNo}.png` : `${base}/${card.from}/${cardNo}.png`;
 }
 
 const fetchImage = async (src: string) => {
@@ -32,6 +33,7 @@ const fetchImage = async (src: string) => {
 export type CardCoverProps = {
     card: Card,
     onClick?: () => void,
+    children?: ReactNode,
 } & NativeProps;
 
 const defaultProps = {};
@@ -50,7 +52,7 @@ const CardCover: FC<CardCoverProps> = (p) => {
 
     useEffect(() => {
         if (inViewport && !loading && !loaded) {
-            run(getImageUrl(props.card));
+            run(getCardImageUrl(props.card));
         }
     }, [inViewport]);
 
@@ -66,13 +68,20 @@ const CardCover: FC<CardCoverProps> = (p) => {
                 <img
                     className="absolute inset-0 transition-opacity duration-300 z-10"
                     style={{opacity: loaded ? 1 : 0}}
-                    src={loaded ? getImageUrl(props.card) : DefaultCardCover}
+                    src={loaded ? getCardImageUrl(props.card) : DefaultCardCover}
                 />
                 <img
                     style={{opacity: loaded ? 0 : 1}}
                     className="duration-300 h-auto w-full"
                     src={DefaultCardCover}
                 />
+                {
+                    props.children != null && (
+                        <div className="absolute inset-0 z-10 rounded-xl overflow-hidden">
+                            {props.children}
+                        </div>
+                    )
+                }
             </div>
         )
     )

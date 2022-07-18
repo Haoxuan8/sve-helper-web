@@ -5,6 +5,7 @@ import {Box, Grid} from "@mui/material";
 import MainButton from "@/view/home/MainButton";
 import StyleIcon from "@mui/icons-material/Style";
 import SettingsIcon from "@mui/icons-material/Settings";
+import PrintIcon from "@mui/icons-material/Print";
 
 export type HomeProps = {} & NativeProps;
 
@@ -23,6 +24,14 @@ const Home: FC<HomeProps> = (p) => {
                         title="卡牌列表"
                         desc="查询卡牌、点击卡牌查看卡牌详情（关联QA、关联卡牌、实时价格）"
                         path="/card-list"
+                    />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <MainButton
+                        Icon={PrintIcon}
+                        title="打印卡牌"
+                        desc="导出需要打印的卡为PDF，自动排好版，一页A4纸九张（耗时较长）"
+                        path="/print"
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
