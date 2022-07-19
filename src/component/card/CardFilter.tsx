@@ -1,5 +1,5 @@
 import {NativeProps, withNativeProps} from "@/util/nativeProps";
-import React, {FC, useLayoutEffect, useRef, useState} from "react";
+import React, {FC, useState} from "react";
 import {mergeProps} from "@/util/withDefaultProps";
 import {
     Box,
@@ -15,10 +15,14 @@ import TextField from "@/component/formfield/TextField";
 import Select from "@/component/formfield/Select";
 import {
     Ability,
-    abilityName, Category,
+    abilityName,
+    CardType,
+    cardTypeName,
+    Category,
     categoryName,
     Craft,
-    craftName, Rare,
+    craftName,
+    Rare,
     rareName
 } from "@/typing/Card";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -26,6 +30,7 @@ import AddIcon from "@mui/icons-material/Add";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CheckboxGroup from "@/component/formfield/CheckboxGroup";
 import SelectList from "@/component/formfield/SelectList";
+import {flatMap} from "lodash";
 
 const crafts = [Craft.Forest, Craft.Sword, Craft.Rune, Craft.Dragon, Craft.Nightmare, Craft.Haven, Craft.Neutral].map(it => ({
     label: craftName[it],
@@ -47,6 +52,12 @@ const abilities = [Ability.Fanfare, Ability.LastWord, Ability.Startup, Ability.E
     Ability.Drain, Ability.Kill, Ability.DAttack, Ability.Pressure, Ability.Aura, Ability.Scarlet, Ability.Awaken, Ability.NCharge, Ability.SCharge, Ability.Stack,
     Ability.EarthMystery, Ability.Quick,];
 
+
+const cardTypes = [...[CardType.Follower, CardType.FollowerEvo, CardType.Spell, CardType.Amulet, CardType.Leader].map(it => ({
+    label: cardTypeName[it],
+    value: it,
+})), {label: "Token", value: "Token"}];
+
 const nopArr: any[] = [];
 
 export type CardFilterProps = {
@@ -57,7 +68,10 @@ const defaultProps = {};
 
 export const getParams = (values: any) => {
     const getArray = (v: any) => v == null ? undefined : [v];
-
+    const card_type = flatMap(values.cardType, type => {
+        if (type === "Token") return [CardType.FollowerToken, CardType.SpellToken, CardType.AmuletToken];
+        return [type];
+    })
     return {
         name: values.name,
         craft: values.craft,
@@ -65,6 +79,7 @@ export const getParams = (values: any) => {
         from: values.from,
         ability: getArray(values.ability),
         cost: values.cost.map((it: string) => parseInt(it)),
+        card_type,
     }
 }
 
@@ -136,6 +151,17 @@ const CardFilter: FC<CardFilterProps> = (p) => {
                                                         </MenuItem>
                                                     ))}
                                                 </Field>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Field
+                                                    fullWidth
+                                                    name="cardType"
+                                                    component={CheckboxGroup}
+                                                    label="卡牌类型"
+                                                    formControlProps={{fullWidth: true}}
+                                                    options={cardTypes}
+                                                    initialValue={nopArr}
+                                                />
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <Field
