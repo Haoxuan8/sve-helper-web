@@ -5,10 +5,9 @@ import ReactDOM from "react-dom";
 import {HashRouter} from "react-router-dom";
 import App from "./App";
 import "./style/index.scss";
-import muiTheme from "@/style/muiTheme";
-import {ThemeProvider} from "@mui/material";
 import {configResponsive} from "ahooks";
 import ConfigContextProvider from "@/context/ConfigContextProvider";
+import ThemeProvider from "@/context/ThemeProvider";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -20,11 +19,11 @@ configResponsive({
 
 ReactDOM.render(
     <HashRouter>
-        <ThemeProvider theme={muiTheme}>
-            <ConfigContextProvider>
+        <ConfigContextProvider>
+            <ThemeProvider>
                 <App />
-            </ConfigContextProvider>
-        </ThemeProvider>
+            </ThemeProvider>
+        </ConfigContextProvider>
     </HashRouter>
     , document.getElementById("root")
 );

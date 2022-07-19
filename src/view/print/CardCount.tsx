@@ -37,7 +37,13 @@ const CardCountButton: FC<CardCountButtonProps> = (props) => {
             )
         } else {
             return (
-                <Box sx={{backgroundColor: "#FFF", borderRadius: 2}}>
+                <Box
+                    sx={{
+                        backgroundColor: "#FFF",
+                        borderRadius: 2,
+                        overflow: "hidden"
+                    }}
+                >
                     <Button
                         variant="outlined"
                         onClick={props.onClick}
@@ -54,7 +60,7 @@ const CardCountButton: FC<CardCountButtonProps> = (props) => {
                 className={classNames("rounded-full")}
             >
                 <IconButton onClick={props.onClick}>
-                    <props.Icon sx={{color: props.primary ? "#FFF" : "#000"}} />
+                    <props.Icon sx={{color: props.primary ? "#FFF" : "primary.main"}} />
                 </IconButton>
             </Box>
         )

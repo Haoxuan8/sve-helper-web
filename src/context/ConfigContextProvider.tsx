@@ -7,13 +7,18 @@ import React, {
     useState
 } from "react";
 import {useLocalStorageState} from "ahooks";
+import {ThemeColorType} from "@/typing/Theme";
 
 type Config = {
     disableCardCover: boolean;
+    primaryColorType: string;
+    secondaryColor: string;
 }
 
 const initConfig: Config = {
     disableCardCover: false,
+    primaryColorType: ThemeColorType.main,
+    secondaryColor: "#7278A8",
 }
 
 const ConfigContext = createContext<Config>(initConfig);
@@ -26,7 +31,7 @@ const ConfigContextProvider: FC<ConfigContextProviderProps> = props => {
     const [configStored, setConfigStored] = useLocalStorageState<Config | undefined>(
         "sve-helper-setting-config",
     );
-    const [config, setConfig] = useState<Config>(configStored ?? initConfig);
+    const [config, setConfig] = useState<Config>({...initConfig, ...(configStored ?? {})});
 
     useEffect(() => {
         setConfigStored(config);

@@ -34,7 +34,7 @@ const App: FC<AppProps> = props => {
                 <Route
                     key={route.key}
                     path={`${route.key}/*`}
-                    element={<Comp/>}
+                    element={<Comp />}
                 />
             )
         })
@@ -44,7 +44,7 @@ const App: FC<AppProps> = props => {
         <div id="app">
             <HideOnScroll>
                 <AppBar>
-                    <Toolbar>
+                    <Toolbar className="transition-colors">
                         <IconButton
                             color="inherit"
                             aria-label="menu"
@@ -52,7 +52,7 @@ const App: FC<AppProps> = props => {
                             sx={{mr: 2}}
                             onClick={() => setMenuVisible(true)}
                         >
-                            <MenuIcon sx={{fontSize: 28}}/>
+                            <MenuIcon sx={{fontSize: 28}} />
                         </IconButton>
                         <Typography
                             sx={{flexGrow: 1}}
@@ -66,7 +66,7 @@ const App: FC<AppProps> = props => {
                             edge="end"
                             onClick={() => navigate("/home")}
                         >
-                            <HomeIcon sx={{fontSize: 28}}/>
+                            <HomeIcon sx={{fontSize: 28}} />
                         </IconButton>
                     </Toolbar>
                 </AppBar>
@@ -75,7 +75,7 @@ const App: FC<AppProps> = props => {
                 className="bg-auto bg-top min-h-screen py-0.5"
                 style={{backgroundImage: `url(${skin1})`}}
             >
-                <Toolbar id="back-to-top-anchor"/>
+                <Toolbar id="back-to-top-anchor" />
                 <Container maxWidth="lg">
                     <Routes>
                         {routeComps}
@@ -96,7 +96,7 @@ const App: FC<AppProps> = props => {
             />
             <BackTop>
                 <Fab size="small" aria-label="scroll back to top">
-                    <KeyboardArrowUpIcon/>
+                    <KeyboardArrowUpIcon />
                 </Fab>
             </BackTop>
         </div>
