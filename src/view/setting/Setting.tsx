@@ -25,6 +25,8 @@ const colors = [
     {label: "默认", value: ThemeColorType.main},
     {label: "菲林", value: ThemeColorType.sora},
     {label: "奥契丝", value: ThemeColorType.grey},
+    {label: "雪华", value: ThemeColorType.pinkLight},
+    {label: "安涅儿", value: ThemeColorType.purple}
 ]
 
 const Setting: FC<SettingProps> = (p) => {

@@ -157,7 +157,7 @@ const CardFilter: FC<CardFilterProps> = (p) => {
                                                     fullWidth
                                                     name="cardType"
                                                     component={CheckboxGroup}
-                                                    label="卡牌类型"
+                                                    label="卡牌种类"
                                                     formControlProps={{fullWidth: true}}
                                                     options={cardTypes}
                                                     initialValue={nopArr}
