@@ -30,6 +30,10 @@ const routes: RouteItem[] = [
     {
         key: "suggestion",
         component: () => import("./view/suggestion/SuggestionBox"),
+    },
+    {
+        key: "edit-deck",
+        component: () => import("./view/editdeck/EditDeck"),
     }
 ];
 
