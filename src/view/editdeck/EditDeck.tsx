@@ -2,9 +2,9 @@ import {NativeProps, withNativeProps} from "@/util/nativeProps";
 import React, {FC, useEffect, useMemo, useRef, useState} from "react";
 import {mergeProps} from "@/util/withDefaultProps";
 import {Box, RadioGroup, Radio, FormControlLabel} from "@mui/material";
-import CraftListSelect from "@/component/craftselect/CraftListSelect";
 import {useSpringRef, useTransition, animated, useSprings} from "react-spring";
 import {usePrevious} from "ahooks";
+import CraftListSelectPage from "@/view/editdeck/CraftListSelectPage";
 
 export type EditDeckProps = {} & NativeProps;
 
@@ -16,8 +16,8 @@ enum EditDeckType {
 }
 
 const pages: FC[] = [
-    CraftListSelect,
-    CraftListSelect,
+    CraftListSelectPage,
+    CraftListSelectPage,
 ]
 
 const EditDeck: FC<EditDeckProps> = (p) => {

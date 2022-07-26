@@ -3,8 +3,12 @@ import React, {FC} from "react";
 import {mergeProps} from "@/util/withDefaultProps";
 import {Box, Grid} from "@mui/material";
 import {Craft} from "@/typing/Card";
+import CraftIcon from "@/component/icon/CraftIcon";
 
-export type CraftListSelectProps = {} & NativeProps;
+export type CraftListSelectProps = {
+    value: Craft | null;
+    onSelect: (craft: Craft) => void;
+} & NativeProps;
 
 const defaultProps = {};
 
@@ -16,12 +20,23 @@ const CraftListSelect: FC<CraftListSelectProps> = (p) => {
     return withNativeProps(
         props,
         <Box>
-            <Grid spacing={2} container>
+            <Grid spacing={2} rowSpacing={6} container>
                 {
                     crafts.map(craft => {
                         return (
-                            <Grid key={craft} item xs={4}>
-                                craft
+                            <Grid
+                                className="flex items-center justify-center"
+                                key={craft}
+                                item
+                                xs={4}
+                            >
+                                <CraftIcon
+                                    active={props.value === craft}
+                                    onClick={() => props.onSelect(craft)}
+                                    className="cursor-pointer"
+                                    hoverActive
+                                    craft={craft}
+                                />
                             </Grid>
                         )
                     })
