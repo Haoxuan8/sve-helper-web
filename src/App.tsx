@@ -71,10 +71,7 @@ const App: FC<AppProps> = props => {
                     </Toolbar>
                 </AppBar>
             </HideOnScroll>
-            <div
-                className="bg-auto bg-top min-h-screen py-0.5"
-                style={{backgroundImage: `url(${skin1})`}}
-            >
+            <div>
                 <Toolbar id="back-to-top-anchor" />
                 <Container maxWidth="lg">
                     <Routes>

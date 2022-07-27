@@ -4,8 +4,12 @@ import {mergeProps} from "@/util/withDefaultProps";
 import {Craft} from "@/typing/Card";
 import {Box, Button, Container} from "@mui/material";
 import CraftListSelect from "@/component/craftselect/CraftListSelect";
+import {
+    EditDeckType,
+    StepOnePageProps
+} from "@/view/editdeck/stepone/StepOneType";
 
-export type CraftListSelectPageProps = {} & NativeProps;
+export type CraftListSelectPageProps = {} & StepOnePageProps & NativeProps;
 
 const defaultProps = {};
 
@@ -25,6 +29,12 @@ const CraftListSelectPage: FC<CraftListSelectPageProps> = (p) => {
                     disabled={selectedCraft == null}
                     fullWidth
                     variant="contained"
+                    onClick={() => {
+                        props.onNextClick({
+                            type: EditDeckType.craft,
+                            craft: selectedCraft
+                        });
+                    }}
                 >
                     下一步
                 </Button>

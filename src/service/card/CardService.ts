@@ -7,6 +7,10 @@ const getCardListAsync = (params: object): Promise<{ total: number, list: Card[]
     return remoteCall.post("getCardList", params);
 };
 
+const getBuildDeckCardListAsync = (params: object): Promise<{ total: number, list: Card[] }> => {
+    return remoteCall.post("getBuildDeckCardList", params);
+};
+
 const getCardDetailAsync = (params: object): Promise<CardDetailType> => {
     return remoteCall.post("getCardDetail", params);
 };
@@ -26,6 +30,7 @@ const getCardPriceDetailAsync = (params: object): Promise<PriceDetail> => {
 
 export default {
     getCardListAsync,
+    getBuildDeckCardListAsync,
     getCardDetailAsync,
     getCardPriceAsync,
     getCardPriceDetailAsync,

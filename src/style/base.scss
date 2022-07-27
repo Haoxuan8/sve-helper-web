@@ -37,6 +37,8 @@ body {
     -webkit-overflow-scrolling: touch;
     overflow: auto;
     overflow-x: hidden;
+    background-image: url("../asset/image/skin1.png");
+    @apply bg-auto bg-top;
 }
 
 a {

@@ -1,5 +1,5 @@
 import {NativeProps, withNativeProps} from "@/util/nativeProps";
-import React, {FC, useState} from "react";
+import React, {FC, useMemo, useState} from "react";
 import {mergeProps} from "@/util/withDefaultProps";
 import {
     Box,
@@ -30,7 +30,7 @@ import AddIcon from "@mui/icons-material/Add";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CheckboxGroup from "@/component/formfield/CheckboxGroup";
 import SelectList from "@/component/formfield/SelectList";
-import {flatMap} from "lodash";
+import {filter, flatMap, reject, includes} from "lodash";
 
 const crafts = [Craft.Forest, Craft.Sword, Craft.Rune, Craft.Dragon, Craft.Nightmare, Craft.Haven, Craft.Neutral].map(it => ({
     label: craftName[it],
@@ -61,10 +61,15 @@ const cardTypes = [...[CardType.Follower, CardType.FollowerEvo, CardType.Spell, 
 const nopArr: any[] = [];
 
 export type CardFilterProps = {
-    onSubmit: (values: any) => Promise<void>,
+    onSubmit: (values: any) => Promise<void>;
+    buildDeck?: boolean;
+    buildEvoDeck?: boolean;
 } & NativeProps;
 
-const defaultProps = {};
+const defaultProps = {
+    buildDeck: false,
+    buildEvoDeck: false,
+};
 
 export const getParams = (values: any) => {
     const getArray = (v: any) => v == null ? undefined : [v];
@@ -78,7 +83,7 @@ export const getParams = (values: any) => {
         rare: values.rare,
         from: values.from,
         ability: getArray(values.ability),
-        cost: values.cost.map((it: string) => parseInt(it)),
+        cost: values.cost ? values.cost.map((it: string) => parseInt(it)) : null,
         card_type,
     }
 }
@@ -87,6 +92,18 @@ const CardFilter: FC<CardFilterProps> = (p) => {
     const props = mergeProps(defaultProps, p);
     const [moreFilter, setMoreFilter] = useState(false);
 
+    const raresMemo = useMemo(() => {
+        if (props.buildDeck) {
+            return reject(rares, rare => includes([Rare.BRP, Rare.SRP, Rare.GRP, Rare.SL], rare.value));
+        } else return rares;
+    }, [props.buildDeck]);
+
+    const cardTypesMemo = useMemo(() => {
+        if (props.buildDeck) {
+            return filter(cardTypes, cardType => includes([CardType.Follower, CardType.Spell, CardType.Amulet], cardType.value));
+        }
+        return cardTypes;
+    }, [props.buildDeck]);
 
     return withNativeProps(
         props,
@@ -152,17 +169,21 @@ const CardFilter: FC<CardFilterProps> = (p) => {
                                                     ))}
                                                 </Field>
                                             </Grid>
-                                            <Grid item xs={12}>
-                                                <Field
-                                                    fullWidth
-                                                    name="cardType"
-                                                    component={CheckboxGroup}
-                                                    label="卡牌种类"
-                                                    formControlProps={{fullWidth: true}}
-                                                    options={cardTypes}
-                                                    initialValue={nopArr}
-                                                />
-                                            </Grid>
+                                            {
+                                                !props.buildEvoDeck && (
+                                                    <Grid item xs={12}>
+                                                        <Field
+                                                            fullWidth
+                                                            name="cardType"
+                                                            component={CheckboxGroup}
+                                                            label="卡牌种类"
+                                                            formControlProps={{fullWidth: true}}
+                                                            options={cardTypesMemo}
+                                                            initialValue={nopArr}
+                                                        />
+                                                    </Grid>
+                                                )
+                                            }
                                             <Grid item xs={12}>
                                                 <Field
                                                     fullWidth
@@ -170,32 +191,40 @@ const CardFilter: FC<CardFilterProps> = (p) => {
                                                     component={CheckboxGroup}
                                                     label="稀有度"
                                                     formControlProps={{fullWidth: true}}
-                                                    options={rares}
+                                                    options={raresMemo}
                                                     initialValue={nopArr}
                                                 />
                                             </Grid>
-                                            <Grid item xs={12}>
-                                                <Field
-                                                    fullWidth
-                                                    initialValue={nopArr}
-                                                    name="craft"
-                                                    component={CheckboxGroup}
-                                                    label="职业"
-                                                    options={crafts}
-                                                    formControlProps={{fullWidth: true}}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <Field
-                                                    fullWidth
-                                                    initialValue={nopArr}
-                                                    name="cost"
-                                                    component={CheckboxGroup}
-                                                    label="花费"
-                                                    options={costs}
-                                                    formControlProps={{fullWidth: true}}
-                                                />
-                                            </Grid>
+                                            {
+                                                !props.buildDeck && (
+                                                    <Grid item xs={12}>
+                                                        <Field
+                                                            fullWidth
+                                                            initialValue={nopArr}
+                                                            name="craft"
+                                                            component={CheckboxGroup}
+                                                            label="职业"
+                                                            options={crafts}
+                                                            formControlProps={{fullWidth: true}}
+                                                        />
+                                                    </Grid>
+                                                )
+                                            }
+                                            {
+                                                !props.buildEvoDeck && (
+                                                    <Grid item xs={12}>
+                                                        <Field
+                                                            fullWidth
+                                                            initialValue={nopArr}
+                                                            name="cost"
+                                                            component={CheckboxGroup}
+                                                            label="花费"
+                                                            options={costs}
+                                                            formControlProps={{fullWidth: true}}
+                                                        />
+                                                    </Grid>
+                                                )
+                                            }
                                         </Grid>
                                     </Collapse>
                                 </Grid>

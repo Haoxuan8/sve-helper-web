@@ -9,16 +9,13 @@ import SendIcon from "@mui/icons-material/Send";
 import sleep from "@/util/sleep";
 import HelpService from "@/service/help/HelpService";
 import Alert from "@/component/alert";
+import ValidatorUtil from "@/util/ValidatorUtil";
 
 export type SuggestionBoxProps = {} & NativeProps;
 
 const defaultProps = {};
 
-const composeValidators = (...validators: any[]) => (value: any) =>
-    validators.reduce((error, validator) => error || validator(value), undefined);
-
-const required = (value: any) => (value ? undefined : "必填")
-const max = (max: number) => (value: any) => (value ? value.length > max ? `不能超过${max}个字符` : undefined : undefined);
+const {composeValidators, required, max} = ValidatorUtil;
 
 const SuggestionBox: FC<SuggestionBoxProps> = (p) => {
     const props = mergeProps(defaultProps, p);

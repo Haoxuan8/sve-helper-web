@@ -11,14 +11,20 @@ export type CardCountProps = {
     count: number;
     onAddClick: () => void;
     onDecClick: () => void;
+    max?: number | null;
+    min?: number;
 } & NativeProps;
 
-const defaultProps = {};
+const defaultProps = {
+    max: null,
+    min: 0,
+};
 
 type CardCountButtonProps = {
     onClick: () => void;
     Icon: any;
     primary: boolean;
+    disabled?: boolean;
 }
 
 const CardCountButton: FC<CardCountButtonProps> = (props) => {
@@ -31,6 +37,7 @@ const CardCountButton: FC<CardCountButtonProps> = (props) => {
                     color="secondary"
                     variant="contained"
                     onClick={props.onClick}
+                    disabled={props.disabled}
                 >
                     <props.Icon />
                 </Button>
@@ -47,6 +54,7 @@ const CardCountButton: FC<CardCountButtonProps> = (props) => {
                     <Button
                         variant="outlined"
                         onClick={props.onClick}
+                        disabled={props.disabled}
                     >
                         <props.Icon />
                     </Button>
@@ -59,7 +67,7 @@ const CardCountButton: FC<CardCountButtonProps> = (props) => {
                 sx={{backgroundColor: props.primary ? "secondary.main" : "#FFF"}}
                 className={classNames("rounded-full")}
             >
-                <IconButton onClick={props.onClick}>
+                <IconButton disabled={props.disabled} onClick={props.onClick}>
                     <props.Icon sx={{color: props.primary ? "#FFF" : "primary.main"}} />
                 </IconButton>
             </Box>
@@ -95,12 +103,14 @@ const CardCount: FC<CardCountProps> = (p) => {
                         onClick={props.onDecClick}
                         Icon={RemoveIcon}
                         primary={false}
+                        disabled={!hovered || props.count <= props.min}
                     />
                 </div>
                 <CardCountButton
                     onClick={props.onAddClick}
                     Icon={AddIcon}
                     primary
+                    disabled={!hovered || (props.max !== null && props.count >= props.max)}
                 />
             </Box>
         </Box>
