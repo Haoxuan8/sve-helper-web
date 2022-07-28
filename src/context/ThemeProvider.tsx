@@ -34,6 +34,9 @@ const ThemeProvider: FC<ThemeProviderProps> = (props) => {
                 caption: {
                     color: "rgb(107 114 128)",
                 }
+            },
+            zIndex: {
+                tooltip: 9999,
             }
         });
         themeRef.current = newTheme;

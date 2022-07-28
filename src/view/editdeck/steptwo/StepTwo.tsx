@@ -23,6 +23,8 @@ import {sum, values, flow} from "lodash/fp";
 import DeckService from "@/service/deck/DeckService";
 import NameConfirmDialog from "@/view/editdeck/steptwo/NameConfirmDialog";
 import Alert from "@/component/alert";
+import useRouteModal from "@/hook/useRouteModal";
+import DeckReview from "@/view/deckreview/DeckReview";
 
 export type StepTwoProps = {
     initialValues?: Deck;
@@ -42,6 +44,7 @@ const StepTwo: FC<StepTwoProps> = (p) => {
     const [cardList, setCardList] = useState<Card[]>([]);
     const [total, setTotal] = useState(0);
     const [deck, setDeck] = useState<Deck | undefined>(props.initialValues);
+    const deckReviewRouteModal = useRouteModal("deck-review");
     const valuesRef = useRef<any>(null);
     const {
         loading,
@@ -129,7 +132,7 @@ const StepTwo: FC<StepTwoProps> = (p) => {
                     ...deck,
                     basic_deck: {
                         ...basicDeck,
-                        [card.card_no]: isUp ? prevCount + 1 : prevCount - 1,
+                        [card.card_no]: isUp ? prevCount + 1 : prevCount === 1 ? undefined : prevCount - 1,
                     }
                 });
             }
@@ -139,7 +142,7 @@ const StepTwo: FC<StepTwoProps> = (p) => {
                     ...deck,
                     evo_deck: {
                         ...evoDeck,
-                        [card.card_no]: isUp ? prevCount + 1 : prevCount - 1,
+                        [card.card_no]: isUp ? prevCount + 1 : prevCount === 1 ? undefined : prevCount - 1,
                     }
                 });
             }
@@ -151,7 +154,7 @@ const StepTwo: FC<StepTwoProps> = (p) => {
         <Box sx={{my: 2}}>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={4}>
-                    <Box className="md:sticky md:top-20 flex flex-col">
+                    <Box className="md:sticky md:top-14 flex flex-col">
                         <Box className="flex justify-center">
                             <RadioGroup
                                 row
@@ -194,6 +197,7 @@ const StepTwo: FC<StepTwoProps> = (p) => {
                             <Button
                                 sx={{ml: "auto", width: 100}}
                                 variant="contained"
+                                onClick={deckReviewRouteModal.show}
                             >
                                 预览
                             </Button>
@@ -227,7 +231,7 @@ const StepTwo: FC<StepTwoProps> = (p) => {
                                 <CardFilter
                                     buildDeck
                                     buildEvoDeck={selectedSection === EditDeckSection.evoDeck}
-                                    className="mt-4 md:max-h-[80vh] md:overflow-auto md:relative"
+                                    className="mt-4 md:max-h-[75vh] md:overflow-auto md:relative"
                                     onSubmit={onSubmit}
                                 />
                             )
@@ -297,6 +301,9 @@ const StepTwo: FC<StepTwoProps> = (p) => {
                     });
                 }}
             />
+            <deckReviewRouteModal.Modal>
+                <DeckReview deck={deck} onClose={deckReviewRouteModal.close} />
+            </deckReviewRouteModal.Modal>
         </Box>
     );
 }

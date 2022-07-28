@@ -66,7 +66,7 @@ const Modal: FC<ModalProps> = (p) => {
         const node = withNativeProps(
             props,
             <springAnimated.div
-                className="fixed inset-0 bg-white z-9998"
+                className="fixed inset-0 bg-white z-[1100]"
                 style={{
                     ...styles,
                 }}

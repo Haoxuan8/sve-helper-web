@@ -2,17 +2,18 @@ import {NativeProps, withNativeProps} from "@/util/nativeProps";
 import React, {FC, ReactNode, useEffect, useRef, useState} from "react";
 import {mergeProps} from "@/util/withDefaultProps";
 import {Card} from "@/typing/Card";
-import _ from "lodash";
+import {startsWith, replace, split} from "lodash";
 import DefaultCardCover from "@/asset/image/default_card_cover.png";
 import {useInViewport, useRequest} from "ahooks";
+import {buildCard} from "@/component/card/util";
 
-export const getCardImageUrl = (card: Card, proxy: boolean = false): string => {
+export const getCardImageUrl = (card: { from: string, card_no: string }, proxy: boolean = false): string => {
     const base = "https://shadowverse-evolve.com/wordpress/wp-content/images/cardlist";
     const proxyBase = "https://www.svehelperwin.com/images";
     let cardNo = card.card_no;
-    if (_.startsWith(card.card_no, "BP")) {
+    if (startsWith(card.card_no, "BP")) {
         cardNo = cardNo.toLowerCase();
-        cardNo = _.replace(cardNo, "-", "_");
+        cardNo = replace(cardNo, "-", "_");
     }
     return proxy ? `${proxyBase}/${card.from}/${cardNo}.png` : `${base}/${card.from}/${cardNo}.png`;
 }
@@ -31,7 +32,8 @@ const fetchImage = async (src: string) => {
 }
 
 export type CardCoverProps = {
-    card: Card,
+    card?: Card,
+    cardNo?: string, // 只传cardNo
     onClick?: () => void,
     children?: ReactNode,
 } & NativeProps;
@@ -43,6 +45,7 @@ const CardCover: FC<CardCoverProps> = (p) => {
     const ref = useRef<HTMLImageElement>(null);
     const [inViewport] = useInViewport(ref);
     const [loaded, setLoaded] = useState(false);
+    const [card, setCard] = useState(buildCard(props.card, props.cardNo));
     const {run, loading} = useRequest(fetchImage, {
         manual: true,
         onSuccess: () => {
@@ -50,9 +53,10 @@ const CardCover: FC<CardCoverProps> = (p) => {
         },
     });
 
+
     useEffect(() => {
         if (inViewport && !loading && !loaded) {
-            run(getCardImageUrl(props.card));
+            run(getCardImageUrl(card));
         }
     }, [inViewport]);
 
@@ -68,7 +72,7 @@ const CardCover: FC<CardCoverProps> = (p) => {
                 <img
                     className="absolute inset-0 transition-opacity duration-300 z-10"
                     style={{opacity: loaded ? 1 : 0}}
-                    src={loaded ? getCardImageUrl(props.card) : DefaultCardCover}
+                    src={loaded ? getCardImageUrl(card) : DefaultCardCover}
                 />
                 <img
                     style={{opacity: loaded ? 0 : 1}}

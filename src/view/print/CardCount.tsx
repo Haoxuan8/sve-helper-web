@@ -1,11 +1,11 @@
 import {NativeProps, withNativeProps} from "@/util/nativeProps";
-import React, {FC, ReactNode, useState} from "react";
+import React, {FC, ReactNode, useRef, useState} from "react";
 import {mergeProps} from "@/util/withDefaultProps";
 import {Box, Button, IconButton} from "@mui/material";
 import classNames from "classnames";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import {useResponsive} from "ahooks";
+import {useHover, useResponsive} from "ahooks";
 
 export type CardCountProps = {
     count: number;
@@ -78,16 +78,16 @@ const CardCountButton: FC<CardCountButtonProps> = (props) => {
 const CardCount: FC<CardCountProps> = (p) => {
     const props = mergeProps(defaultProps, p);
     const responsive = useResponsive();
-    const [hovered, setHovered] = useState(false);
+    const ref = useRef<HTMLDivElement | null>(null);
+    const isHovering = useHover(ref);
 
     return withNativeProps(
         props,
         <Box
+            ref={ref}
             className={classNames("flex flex-col items-center h-full w-full hover:bg-black/30 transition opacity-0", {
-                "opacity-100": hovered,
+                "opacity-100": isHovering,
             })}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
         >
             <Box sx={{height: responsive.md ? "30%" : "23%"}} />
             <Box
@@ -103,14 +103,14 @@ const CardCount: FC<CardCountProps> = (p) => {
                         onClick={props.onDecClick}
                         Icon={RemoveIcon}
                         primary={false}
-                        disabled={!hovered || props.count <= props.min}
+                        disabled={!isHovering || props.count <= props.min}
                     />
                 </div>
                 <CardCountButton
                     onClick={props.onAddClick}
                     Icon={AddIcon}
                     primary
-                    disabled={!hovered || (props.max !== null && props.count >= props.max)}
+                    disabled={!isHovering || (props.max !== null && props.count >= props.max)}
                 />
             </Box>
         </Box>

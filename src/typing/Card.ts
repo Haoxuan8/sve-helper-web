@@ -136,9 +136,14 @@ export const abilityName = {
     [Ability.EarthMystery]: "土之秘术",
 }
 
-export interface Card {
-    attack: number;
+
+export interface CardBase {
     card_no: string;
+    from: string;
+}
+
+export interface Card extends CardBase {
+    attack: number;
     card_type: CardType;
     cost: number;
     craft: Craft;
@@ -146,7 +151,6 @@ export interface Card {
     desc_cn: string;
     desc_jp: string;
     drawer: string;
-    from: string;
     id: number;
     img_url: string;
     life: number;

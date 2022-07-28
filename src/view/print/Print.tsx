@@ -26,7 +26,6 @@ const Print: FC<PrintProps> = (p) => {
     const [cardList, setCardList] = useState<Card[]>([]);
     const [cards, setCards] = useState<Card[]>([]);
     const [total, setTotal] = useState(0);
-    const [tipShow, setTipShowed] = useOnce("print-view-tip-once"); // 1天只显示一次提示
     const valuesRef = useRef<any>(null);
     const {loading, run, runAsync} = useRequest(CardService.getCardListAsync, {
         manual: true,
@@ -35,20 +34,6 @@ const Print: FC<PrintProps> = (p) => {
             setTotal(result.total);
         }
     });
-
-    useEffect(() => {
-        if (tipShow) {
-            Alert.show({
-                children: (
-                    <div>
-                        这是一个正在开发的功能，若遇到bug请至意见箱进行反馈。
-                    </div>
-                ),
-                severity: "info",
-            });
-            setTipShowed();
-        }
-    }, []);
 
     const cardCountByCardNO = useMemo(() => {
         return flow(
